@@ -2,13 +2,6 @@
 @section('title', 'Edit Profil')
 @section('content')
 <div class="max-w-4xl mx-auto py-6">
-    @if(session('success'))
-        <div class="bg-green-500 text-white p-4 rounded-lg mb-6 shadow-sm flex justify-between items-center">
-            <span>{{ session('success') }}</span>
-            <button onclick="this.parentElement.remove()" class="font-bold hover:text-gray-200">×</button>
-        </div>
-    @endif
-
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- Informasi Profil -->
         <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
@@ -24,6 +17,14 @@
                 <div class="mb-5">
                     <label class="block text-sm font-semibold text-gray-600 mb-2">Alamat Email</label>
                     <input type="email" name="email" value="{{ old('email', auth()->user()->email) }}" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition outline-none">
+                </div>
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-gray-600 mb-2">Nomor HP / WhatsApp</label>
+                    <input type="text" name="phone" value="{{ old('phone', auth()->user()->phone) }}" placeholder="08xxxxxxxxxx" class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition outline-none">
+                </div>
+                <div class="mb-5">
+                    <label class="block text-sm font-semibold text-gray-600 mb-2">Alamat Lengkap</label>
+                    <textarea name="address" rows="3" placeholder="Alamat domisili..." class="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 transition outline-none">{{ old('address', auth()->user()->address) }}</textarea>
                 </div>
                 <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition transform hover:scale-[1.02]">Update Profil</button>
             </form>
