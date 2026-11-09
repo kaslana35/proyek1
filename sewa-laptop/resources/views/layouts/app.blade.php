@@ -100,5 +100,13 @@
         @endif
         @yield('content')
     </div>
+
+    <!-- Footer Korporat -->
+    <footer class="bg-white border-t border-gray-200 mt-20 py-8 text-center text-xs text-gray-500 no-print">
+        <div class="container mx-auto px-4">
+            <p class="font-semibold text-gray-700">SEWALAPTOP ENTERPRISE CORE &copy; {{ date('Y') }}</p>
+            <p class="mt-1">Sistem Manajemen & Penyewaan Laptop Terintegrasi. Hak Cipta Dilindungi.</p>
+        </div>
+    </footer>
 </body>
 </html>

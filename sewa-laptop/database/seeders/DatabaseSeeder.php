@@ -3,10 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role as SpatieRole;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,30 +14,36 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // 1. Pastikan role ada
-        $adminRole = SpatieRole::firstOrCreate(['name' => 'admin']);
-        $userRole = SpatieRole::firstOrCreate(['name' => 'user']);
+        // 1. Create Roles
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $userRole = Role::firstOrCreate(['name' => 'user']);
 
-        // 2. Update atau Buat Admin
-        $admin = User::updateOrCreate(
-            ['email' => 'admin@sewa.com'],
+        // 2. Create Admin
+        $admin = User::firstOrCreate(
+            ['email' => 'admin123@gmail.com'],
             [
-                'name' => 'Admin Sewa',
+                'name' => 'Admin SewaLaptop',
                 'password' => Hash::make('password123'),
-                'email_verified_at' => now(),
             ]
         );
         $admin->assignRole($adminRole);
 
-        // 3. Update atau Buat User
-        $user = User::updateOrCreate(
-            ['email' => 'user@sewa.com'],
-            [
-                'name' => 'User Biasa',
-                'password' => Hash::make('password123'),
-                'email_verified_at' => now(),
-            ]
-        );
-        $user->assignRole($userRole);
+        // 3. Create Users
+        $users = [
+            ['name' => 'Bayu Pratama', 'email' => 'bayu123@gmail.com'],
+            ['name' => 'Budi Santoso', 'email' => 'budi456@gmail.com'],
+            ['name' => 'Siti Aminah', 'email' => 'siti789@gmail.com'],
+        ];
+
+        foreach ($users as $userData) {
+            $user = User::firstOrCreate(
+                ['email' => $userData['email']],
+                [
+                    'name' => $userData['name'],
+                    'password' => Hash::make('password123'),
+                ]
+            );
+            $user->assignRole($userRole);
+        }
     }
 }
