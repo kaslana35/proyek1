@@ -16,6 +16,12 @@
             <p class="text-sm text-gray-500 mt-1">SewaLaptop</p>
         </div>
         
+        @if(session('success'))
+            <div class="bg-blue-50 border border-blue-200 text-blue-600 px-4 py-3 rounded-xl mb-4 text-sm font-medium">
+                {{ session('success') }}
+            </div>
+        @endif
+
         @if($errors->any())
             <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl mb-4 text-sm font-medium">
                 {{ $errors->first('email') ?: $errors->first() }}

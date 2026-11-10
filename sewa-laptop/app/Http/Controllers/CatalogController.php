@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CatalogController extends Controller {
     public function index(Request $request) {
-        $query = Laptop::where('stok', '>', 0);
+        $query = Laptop::where('stok', '>', 0)->where('status', 'ready');
 
         if ($request->filled('search')) {
             $query->where(function($q) use ($request) {

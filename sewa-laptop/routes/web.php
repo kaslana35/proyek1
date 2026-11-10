@@ -31,7 +31,7 @@ Route::get('/', function () {
 Route::middleware(['auth'])->group(function () {
     Route::post('/logout', function () {
         auth()->logout();
-        return redirect('/login');
+        return redirect('/login')->with('success', 'Anda telah berhasil logout.');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

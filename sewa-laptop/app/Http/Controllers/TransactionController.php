@@ -32,6 +32,13 @@ class TransactionController extends Controller
         return view('admin.transactions.index', compact('transactions'));
     }
 
+    // Admin Menyetujui Transaksi
+    public function approve(Transaction $transaction)
+    {
+        $transaction->update(['status' => 'approved']);
+        return back()->with('success', 'Transaksi berhasil disetujui!');
+    }
+
     // Admin Menyelesaikan Transaksi (Barang Kembali & Stok Kembali)
     public function complete(Transaction $transaction)
     {

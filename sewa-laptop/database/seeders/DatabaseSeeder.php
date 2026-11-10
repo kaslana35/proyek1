@@ -45,5 +45,8 @@ class DatabaseSeeder extends Seeder
             );
             $user->assignRole($userRole);
         }
+
+        // 4. Create Laptops via LaptopSeeder
+        $this->call(LaptopSeeder::class);
     }
 }

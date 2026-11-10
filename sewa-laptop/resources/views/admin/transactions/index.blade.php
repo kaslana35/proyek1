@@ -9,11 +9,23 @@
 </div>
 <h1 class="text-2xl font-bold text-gray-800 mb-6 print-only hidden">Laporan Transaksi Penyewaan Laptop</h1>
 
+<!-- Logo saat cetak -->
+<div class="print-only hidden mb-4 flex items-center gap-2">
+    <div class="bg-blue-600 p-1.5 rounded-lg inline-block">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+    </div>
+    <span class="font-bold text-lg text-gray-800">Sewa Laptop</span>
+</div>
+
 <style>
     @media print {
         .no-print { display: none !important; }
         nav { display: none !important; }
-        .print-only { display: block !important; }
+        .print-only { 
+            display: block !important; 
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact; 
+        }
         body { background: white !important; }
     }
 </style>
