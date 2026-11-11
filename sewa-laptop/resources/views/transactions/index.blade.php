@@ -79,6 +79,11 @@
                                 <span class="{{ $statusColors[$status] ?? 'bg-gray-50' }} text-xs px-3 py-1 rounded-full font-semibold border uppercase">
                                     {{ $status }}
                                 </span>
+                                @if($status == 'approved' && \Carbon\Carbon::parse($trx->tanggal_selesai)->isPast())
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-red-500 text-white font-bold animate-pulse">⚠️ Overdue</span>
+                                @elseif($status == 'approved' && \Carbon\Carbon::parse($trx->tanggal_selesai)->isToday())
+                                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-orange-500 text-white font-bold">⏰ Terakhir</span>
+                                @endif
                                 @if(in_array($status, ['approved', 'active', 'returned']))
                                     <button onclick="document.getElementById('review-box-{{ $trx->id }}').classList.toggle('hidden')" class="text-xs text-blue-600 font-semibold hover:underline">
                                         ⭐ Beri / Lihat Ulasan

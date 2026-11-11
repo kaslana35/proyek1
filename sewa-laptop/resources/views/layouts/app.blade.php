@@ -20,6 +20,21 @@
             <!-- Desktop Menu -->
             <div class="hidden md:flex items-center gap-6 text-sm">
                 @auth
+                    @role('user')
+                        @php
+                            $overdueCount = \App\Models\Transaction::where('user_id', auth()->id())
+                                ->where('status', 'approved')
+                                ->where('tanggal_selesai', '<', now())
+                                ->count();
+                        @endphp
+                        <a href="{{ route('laptops.index') }}" class="hover:text-blue-200 {{ request()->routeIs('laptops.index') ? 'font-bold underline' : '' }}">Katalog</a>
+                        <a href="{{ route('transactions.index') }}" class="relative hover:text-blue-200 {{ request()->routeIs('transactions.index') ? 'font-bold underline' : '' }}">
+                            Riwayat
+                            @if($overdueCount > 0)
+                                <span class="absolute -top-2 -right-3 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">{{ $overdueCount }}</span>
+                            @endif
+                        </a>
+                    @endrole
                     @role('admin')
                         <a href="{{ route('dashboard') }}" class="hover:text-blue-200 {{ request()->routeIs('dashboard') ? 'font-bold underline' : '' }}">Dashboard</a>
                         <a href="{{ route('admin.stok.manage') }}" class="hover:text-blue-200 {{ request()->routeIs('admin.stok.*') ? 'font-bold underline' : '' }}">Stok</a>
@@ -27,10 +42,6 @@
                         <a href="{{ route('admin.inspections.index') }}" class="hover:text-blue-200 {{ request()->routeIs('admin.inspections.*') ? 'font-bold underline' : '' }}">Pemeriksaan</a>
                         <a href="{{ route('admin.transactions.index') }}" class="hover:text-blue-200 {{ request()->routeIs('admin.transactions.index') ? 'font-bold underline' : '' }}">Transaksi</a>
                         <a href="{{ route('admin.users.index') }}" class="hover:text-blue-200 {{ request()->routeIs('admin.users.index') ? 'font-bold underline' : '' }}">User</a>
-                    @endrole
-                    @role('user')
-                        <a href="{{ route('laptops.index') }}" class="hover:text-blue-200 {{ request()->routeIs('laptops.index') ? 'font-bold underline' : '' }}">Katalog</a>
-                        <a href="{{ route('transactions.index') }}" class="hover:text-blue-200 {{ request()->routeIs('transactions.index') ? 'font-bold underline' : '' }}">Riwayat</a>
                     @endrole
                     
                     <div class="border-l border-blue-400 pl-6 flex items-center gap-5">

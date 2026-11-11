@@ -53,6 +53,22 @@
                 @if($laptop->stok > 0)
                     <form action="{{ route('laptops.sewa', $laptop->id) }}" method="POST" class="mt-8 border-t pt-6">
                         @csrf
+                        
+                        <!-- Kotak Syarat & Ketentuan -->
+                        <div class="mb-4 bg-gray-50 p-4 rounded-2xl border border-gray-200 text-xs text-gray-600">
+                            <h4 class="font-bold text-gray-800 mb-2">📋 Syarat & Ketentuan Sewa:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                <li>Penyewa wajib melengkapi data profil (No. Telp & Alamat).</li>
+                                <li>Wajib menunjukkan identitas (KTP/KTM) saat pengambilan unit.</li>
+                                <li>Bertanggung jawab penuh atas keutuhan fisik dan kelengkapan unit.</li>
+                                <li>Keterlambatan pengembalian akan dikenakan denda harian.</li>
+                            </ul>
+                            <div class="mt-3 flex items-center gap-2 pt-2 border-t border-gray-200">
+                                <input type="checkbox" id="terms" name="terms" required class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                <label for="terms" class="font-semibold text-gray-700 cursor-pointer">Saya menyetujui syarat & ketentuan sewa di atas.</label>
+                            </div>
+                        </div>
+
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label class="block text-xs font-bold text-gray-700 mb-1">Tanggal Mulai</label>

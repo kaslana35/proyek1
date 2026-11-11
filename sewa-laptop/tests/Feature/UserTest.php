@@ -47,6 +47,7 @@ class UserTest extends TestCase
         $this->actingAs($user)->post(route('laptops.sewa', $laptop->id), [
             'tanggal_mulai' => now()->toDateString(),
             'tanggal_selesai' => now()->addDays(2)->toDateString(),
+            'terms' => 'on'
         ])->assertRedirect(route('transactions.index'));
         
         $this->assertDatabaseHas('transactions', ['user_id' => $user->id, 'status' => 'pending']);

@@ -38,6 +38,7 @@ class CatalogController extends Controller {
         $request->validate([
             'tanggal_mulai' => 'required|date|after_or_equal:today',
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
+            'terms' => 'required|accepted',
         ]);
         
         $diff = (new \DateTime($request->tanggal_mulai))->diff(new \DateTime($request->tanggal_selesai))->days;
