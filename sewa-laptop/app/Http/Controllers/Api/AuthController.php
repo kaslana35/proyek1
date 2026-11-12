@@ -7,6 +7,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * @property \Laravel\Sanctum\PersonalAccessToken $currentAccessToken
+ */
 class AuthController extends Controller
 {
     public function login(Request $request)
@@ -16,6 +19,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        /** @var \App\Models\User $user */
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {

@@ -11,8 +11,8 @@
     <div class="bg-orange-100 p-4 rounded shadow-sm">Not Ready: {{ $summary['not_ready'] }}</div>
 </div>
 
-<div class="bg-white shadow rounded-lg overflow-hidden">
-    <table class="w-full text-left">
+<div class="bg-white shadow rounded-lg overflow-x-auto">
+    <table class="w-full text-left min-w-[600px]">
         <thead class="bg-gray-800 text-white text-xs uppercase">
             <tr>
                 <th class="p-3">Laptop</th>

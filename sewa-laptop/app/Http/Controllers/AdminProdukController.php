@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminProdukController extends Controller {
     public function manageProduk() {
-        $laptops = Laptop::paginate(5);
+        $laptops = Laptop::paginate(6);
         return view('admin.produk.manage', compact('laptops'));
     }
 

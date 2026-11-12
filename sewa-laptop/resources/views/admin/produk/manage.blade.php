@@ -17,7 +17,7 @@
 
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
     <div class="overflow-x-auto">
-        <table class="w-full text-left border-collapse">
+        <table class="w-full text-left border-collapse min-w-[600px]">
             <thead class="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider border-b">
                 <tr>
                     <th class="p-4 font-semibold">Foto</th>

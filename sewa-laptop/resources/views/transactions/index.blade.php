@@ -44,8 +44,8 @@
             <a href="{{ route('laptops.index') }}" class="inline-block mt-4 bg-blue-600 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-blue-700 transition text-sm">Cari Laptop Sekarang</a>
         </div>
     @else
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <table class="w-full text-left border-collapse">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
+            <table class="w-full text-left border-collapse min-w-[600px]">
                 <thead class="bg-gray-50 text-gray-700 uppercase text-xs tracking-wider border-b">
                     <tr>
                         <th class="p-4 font-semibold">Laptop</th>

@@ -5,8 +5,8 @@
     <h1 class="text-2xl font-bold text-gray-800">Riwayat Pemeriksaan Unit</h1>
 </div>
 
-<div class="bg-white shadow rounded-lg overflow-hidden">
-    <table class="w-full text-left">
+<div class="bg-white rounded-lg shadow overflow-x-auto">
+    <table class="w-full text-left min-w-[600px]">
         <thead class="bg-gray-800 text-white text-xs uppercase">
             <tr>
                 <th class="p-3">Waktu</th>

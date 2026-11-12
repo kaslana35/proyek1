@@ -38,12 +38,14 @@
     <div class="bg-red-100 text-red-700 p-3 rounded mb-4">{{ $errors->first() }}</div>
 @endif
 
-<div class="bg-white rounded-lg shadow overflow-hidden">
-    <table class="w-full text-left">
+<div class="bg-white rounded-lg shadow overflow-x-auto">
+    <table class="w-full text-left min-w-[600px]">
         <thead class="bg-gray-800 text-white">
             <tr>
                 <th class="p-3">User</th>
                 <th class="p-3">Laptop</th>
+                <th class="p-3">Periode Sewa</th>
+                <th class="p-3">Total Biaya</th>
                 <th class="p-3">Status</th>
                 <th class="p-3 no-print">Aksi</th>
             </tr>
@@ -53,6 +55,8 @@
             <tr>
                 <td class="p-3">{{ $trx->user?->name ?? 'User Dihapus' }}</td>
                 <td class="p-3">{{ $trx->laptop?->merk ?? 'Laptop Dihapus' }} {{ $trx->laptop?->tipe ?? '' }}</td>
+                <td class="p-3 text-xs text-gray-600">{{ $trx->tanggal_mulai }} s/d {{ $trx->tanggal_selesai }}</td>
+                <td class="p-3 font-semibold text-gray-800">Rp {{ number_format($trx->total_biaya, 0, ',', '.') }}</td>
                 <td class="p-3">
                     <span class="px-2 py-1 text-xs rounded-full font-semibold 
                         {{ $trx->status == 'approved' ? 'bg-green-100 text-green-800' : 
@@ -85,6 +89,9 @@
             @endforeach
         </tbody>
     </table>
+</div>
+<div class="mt-4 bg-gray-50 p-4 rounded-lg text-right font-bold text-gray-800">
+    Total Pendapatan Transaksi di Halaman Ini: Rp {{ number_format($transactions->sum('total_biaya'), 0, ',', '.') }}
 </div>
 <div class="mt-6">{{ $transactions->links() }}</div>
 @endsection
