@@ -20,10 +20,9 @@ class AdminStokController extends Controller {
 
     public function transferStok(Request $request, Laptop $laptop) {
         $request->validate([
-            'jumlah' => 'required|integer|min:1',
-            'target' => 'required|in:ready,maintenance,not_ready',
+            'qty' => 'required|integer|min:1',
+            'to'   => 'required|in:ready,maintenance,not_ready',
             'from'   => 'required|in:ready,maintenance,not_ready',
-            'catatan' => 'required|string|max:255'
         ]);
 
         if ($request->from === $request->target) {
@@ -35,21 +34,21 @@ class AdminStokController extends Controller {
             $sources = ['ready' => 'stok', 'maintenance' => 'maintenance_stok', 'not_ready' => 'not_ready_stok'];
             
             $srcCol = $sources[$request->from];
-            $tgtCol = $sources[$request->target];
+            $tgtCol = $sources[$request->to];
 
-            if ($laptop->$srcCol < $request->jumlah) {
+            if ($laptop->$srcCol < $request->qty) {
                 throw new \Exception("Stok di " . ucfirst($request->from) . " tidak mencukupi.");
             }
 
-            $laptop->decrement($srcCol, $request->jumlah);
-            $laptop->increment($tgtCol, $request->jumlah);
+            $laptop->decrement($srcCol, $request->qty);
+            $laptop->increment($tgtCol, $request->qty);
             
             UnitInspection::create([
                 'laptop_id' => $laptop->id,
                 'status_sebelum' => $request->from,
-                'status_sesudah' => $request->target,
-                'jumlah' => $request->jumlah,
-                'catatan' => $request->catatan
+                'status_sesudah' => $request->to,
+                'jumlah' => $request->qty,
+                'catatan' => "Transfer stok dari " . ucfirst($request->from) . " ke " . ucfirst($request->to)
             ]);
 
             DB::commit();
