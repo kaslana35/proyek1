@@ -2,60 +2,54 @@
 @section('title', 'Manajemen Stok')
 @section('content')
 <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Manajemen Stok</h1>
+    <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Manajemen Stok</h1>
+    <a href="{{ route('dashboard') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-smooth">Kembali</a>
 </div>
 
-<div class="grid grid-cols-3 gap-4 mb-6 text-center">
-    <div class="bg-green-100 p-4 rounded shadow-sm">Ready: {{ $summary['ready'] }}</div>
-    <div class="bg-yellow-100 p-4 rounded shadow-sm">Maint: {{ $summary['maintenance'] }}</div>
-    <div class="bg-orange-100 p-4 rounded shadow-sm">Not Ready: {{ $summary['not_ready'] }}</div>
-</div>
+@if(session('success'))
+    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 p-4 rounded-xl mb-6 text-sm font-medium">
+        {{ session('success') }}
+    </div>
+@endif
 
-<div class="bg-white shadow rounded-lg overflow-x-auto">
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-x-auto">
     <table class="w-full text-left min-w-[600px]">
-        <thead class="bg-gray-800 text-white text-xs uppercase">
+        <thead class="bg-gray-800 dark:bg-slate-700 text-white">
             <tr>
-                <th class="p-3">Laptop</th>
-                <th class="p-3">Stok Saat Ini</th>
-                <th class="p-3">Transfer Stok Universal</th>
+                <th class="p-3">Merek & Tipe</th>
+                <th class="p-3">Stok Ready</th>
+                <th class="p-3">Stok Maintenance</th>
+                <th class="p-3">Stok Not Ready</th>
+                <th class="p-3">Aksi</th>
             </tr>
         </thead>
-        <tbody class="divide-y text-sm">
+        <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
             @foreach($laptops as $l)
-            <tr>
-                <td class="p-3 font-bold">{{ $l->merk }} {{ $l->tipe }}</td>
+            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/30 transition-smooth">
+                <td class="p-3 font-semibold text-gray-800 dark:text-gray-100">{{ $l->merk }} {{ $l->tipe }}</td>
+                <td class="p-3 text-gray-700 dark:text-gray-300">{{ $l->stok }}</td>
+                <td class="p-3 text-gray-700 dark:text-gray-300">{{ $l->maintenance_stok }}</td>
+                <td class="p-3 text-gray-700 dark:text-gray-300">{{ $l->not_ready_stok }}</td>
                 <td class="p-3">
-                    <span class="text-green-600 font-semibold">Ready: {{ $l->stok }}</span> | 
-                    <span class="text-yellow-600 font-semibold">Maint: {{ $l->maintenance_stok }}</span> | 
-                    <span class="text-orange-600 font-semibold">NR: {{ $l->not_ready_stok }}</span>
-                </td>
-                <td class="p-3">
-                    <form action="{{ route('admin.stok.transfer', $l->id) }}" method="POST" class="flex flex-wrap gap-2 items-center">
+                    <form action="{{ route('admin.stok.transfer', $l->id) }}" method="POST" class="flex gap-2">
                         @csrf @method('PUT')
-                        <input type="number" name="jumlah" class="w-16 border rounded p-1 text-xs" placeholder="Jml" min="1" required>
-                        
-                        <span class="text-xs text-gray-500 font-bold">Dari:</span>
-                        <select name="from" class="border rounded p-1 text-xs" required>
+                        <select name="from" class="border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300">
                             <option value="ready">Ready</option>
                             <option value="maintenance">Maintenance</option>
                             <option value="not_ready">Not Ready</option>
                         </select>
-
-                        <span class="text-xs text-gray-500 font-bold">Ke:</span>
-                        <select name="target" class="border rounded p-1 text-xs" required>
+                        <select name="to" class="border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300">
                             <option value="ready">Ready</option>
                             <option value="maintenance">Maintenance</option>
                             <option value="not_ready">Not Ready</option>
                         </select>
-
-                        <input type="text" name="catatan" class="w-full border rounded p-1 text-xs" placeholder="Catatan kerusakan..." required>
-                        <button class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 font-semibold w-full">Transfer</button>
+                        <input type="number" name="qty" min="1" class="w-16 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" required>
+                        <button class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-smooth">Transfer</button>
                     </form>
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
-    <div class="p-4">{{ $laptops->links() }}</div>
 </div>
 @endsection
