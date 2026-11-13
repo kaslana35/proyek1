@@ -46,18 +46,6 @@
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">SewaLaptop Enterprise Core</p>
         </div>
 
-        @if(session('success'))
-            <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 px-4 py-3 rounded-xl mb-4 text-sm font-medium">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        @if($errors->any())
-            <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-xl mb-4 text-sm font-medium">
-                {{ $errors->first('email') ?: $errors->first() }}
-            </div>
-        @endif
-
         <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="mb-4">
