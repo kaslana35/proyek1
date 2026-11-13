@@ -13,7 +13,7 @@
 
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
     <!-- Card Pending -->
-    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-between hover:shadow-md transition-smooth">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-between hover:shadow-md transition-smooth max-w-md">
         <div>
             <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Transaksi Pending</p>
             <h3 class="text-3xl font-extrabold text-gray-800 dark:text-gray-100">{{ $stats['pending_trx'] }}</h3>
@@ -25,7 +25,7 @@
     </div>
 
     <!-- Card Maintenance -->
-    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-between hover:shadow-md transition-smooth">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-between hover:shadow-md transition-smooth max-w-md">
         <div>
             <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Unit Maintenance</p>
             <h3 class="text-3xl font-extrabold text-gray-800 dark:text-gray-100">{{ $stats['maintenance'] }}</h3>
@@ -37,7 +37,7 @@
     </div>
 
     <!-- Card Pendapatan -->
-    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-between hover:shadow-md transition-smooth">
+    <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 flex items-center justify-between hover:shadow-md transition-smooth max-w-md">
         <div>
             <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">Total Pendapatan</p>
             <h3 class="text-3xl font-extrabold text-gray-800 dark:text-gray-100">Rp {{ number_format($stats['pendapatan']) }}</h3>
@@ -63,7 +63,13 @@
                     <div class="w-32 text-sm font-bold text-gray-800 dark:text-gray-100 text-right text-[10px]">Rp {{ number_format($data->total) }}</div>
                 </div>
             @empty
-                <p class="text-gray-400 dark:text-gray-500 text-sm text-center py-4">Belum ada pendapatan.</p>
+                <div class="flex flex-col items-center gap-3 py-8">
+                    <div class="w-12 h-12 bg-gray-100 dark:bg-slate-700 rounded-full flex items-center justify-center text-gray-400 dark:text-gray-400 text-sm">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <p class="text-gray-400 dark:text-gray-500 text-sm text-center">Belum ada pendapatan</p>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 text-center">Transaksi dengan status 'approved' atau 'returned' akan muncul di sini</p>
+                </div>
             @endforelse
         </div>
     </div>
@@ -82,7 +88,10 @@
                         <span class="font-bold text-red-600 dark:text-red-400">{{ $laptop->stok }} tersisa</span>
                     </div>
                 @empty
-                    <p class="text-gray-400 dark:text-gray-500 text-xs">Stok aman semua.</p>
+                    <div class="flex flex-col items-center gap-2 py-4">
+                        <svg class="w-6 h-6 text-green-400 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v1m2-6v1m2-6v1m6-6v1m2-6v1m-6 2v6m2-6v1m6-6v1m2-6v1m2-6v1m6-6v1m2-6v1M9 19l6 6v-6m-6 0l6-6v6M3 7a5 5 0 015 5v6h-2v5l5 5v5h5v-5h5v-5h-2v-5a5 5 0 00-5-5V7zM3 7H2v7a5 5 0 005 5h4a5 5 0 005-5V7H3z"></path></svg>
+                        <p class="text-gray-500 dark:text-gray-400 text-xs">Stok aman semua</p>
+                    </div>
                 @endforelse
             </div>
         </div>
@@ -95,7 +104,10 @@
                         <span class="text-xs text-gray-400 dark:text-gray-500">{{ $ins->created_at->diffForHumans() }}</span>
                     </div>
                 @empty
-                    <p class="text-gray-400 dark:text-gray-500 text-xs">Belum ada data inspeksi.</p>
+                    <div class="flex flex-col items-center gap-2 py-4">
+                        <svg class="w-6 h-6 text-gray-400 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v1m2-6v1m2-6v1m6-6v1m2-6v1m6-6v1m2-6v1m2-6v1M9 19l6 6v-6m-6 0l6-6v6M3 7a5 5 0 015 5v6h-2v5l5 5v5h5v-5h5v-5h-2v-5a5 5 0 01-5-5V7zM3 7H2v7a5 5 0 005 5h4a5 5 0 005-5V7H3z"></path></svg>
+                        <p class="text-gray-500 dark:text-gray-400 text-xs">Belum ada data inspeksi</p>
+                    </div>
                 @endforelse
             </div>
         </div>

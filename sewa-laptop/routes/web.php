@@ -66,8 +66,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 });
 
 // Rute untuk User / Publik (Katalog & Detail)
+// Alias: /katalog juga bisa digunakan untuk akses katalog
 Route::get('/laptops', [CatalogController::class, 'index'])->name('laptops.index');
 Route::get('/laptops/{laptop}', [CatalogController::class, 'show'])->name('laptops.show');
+Route::get('/katalog', [CatalogController::class, 'index'])->name('katalog');
 
 // Rute khusus User yang harus login & punya role user
 Route::middleware(['auth', 'role:user'])->group(function () {

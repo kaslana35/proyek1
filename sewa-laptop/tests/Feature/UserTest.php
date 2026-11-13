@@ -27,7 +27,7 @@ class UserTest extends TestCase
     {
         $this->post('/register', [
             'name' => 'Bayu', 'email' => 'bayu@gmail.com',
-            'password' => 'password123', 'password_confirmation' => 'password123',
+            'password' => 'TestPass123@', 'password_confirmation' => 'TestPass123@',
         ])->assertRedirect();
         
         $this->assertDatabaseHas('users', ['email' => 'bayu@gmail.com']);

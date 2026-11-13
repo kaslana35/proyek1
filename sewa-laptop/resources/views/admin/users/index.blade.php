@@ -6,14 +6,14 @@
     <a href="{{ route('dashboard') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-smooth">Kembali</a>
 </div>
 
-<div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-x-auto">
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow overflow-x-auto max-w-6xl">
     <table class="w-full text-left border-collapse min-w-[600px]">
         <thead class="bg-gray-800 dark:bg-slate-700 text-white">
             <tr>
-                <th class="p-3">Nama</th>
-                <th class="p-3">Email</th>
-                <th class="p-3">Role</th>
-                <th class="p-3 text-center">Aksi</th>
+                <th class="p-3 text-sm">Nama</th>
+                <th class="p-3 text-sm">Email</th>
+                <th class="p-3 text-sm">Role</th>
+                <th class="p-3 text-center text-sm">Aksi</th>
             </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 dark:divide-slate-700">

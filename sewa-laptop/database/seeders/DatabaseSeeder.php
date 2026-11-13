@@ -20,19 +20,17 @@ class DatabaseSeeder extends Seeder
 
         // 2. Create Admin
         $admin = User::firstOrCreate(
-            ['email' => 'admin123@gmail.com'],
+            ['email' => 'admin@sewa.com'],
             [
-                'name' => 'Admin SewaLaptop',
-                'password' => Hash::make('password123'),
+                'name' => 'Admin Utama',
+                'password' => Hash::make('Admin123@'),
             ]
         );
         $admin->assignRole($adminRole);
 
         // 3. Create Users
         $users = [
-            ['name' => 'Bayu Pratama', 'email' => 'bayu123@gmail.com'],
-            ['name' => 'Budi Santoso', 'email' => 'budi456@gmail.com'],
-            ['name' => 'Siti Aminah', 'email' => 'siti789@gmail.com'],
+            ['name' => 'User Biasa', 'email' => 'user@sewa.com'],
         ];
 
         foreach ($users as $userData) {
@@ -40,7 +38,7 @@ class DatabaseSeeder extends Seeder
                 ['email' => $userData['email']],
                 [
                     'name' => $userData['name'],
-                    'password' => Hash::make('password123'),
+                    'password' => Hash::make('UserLaptop@2024'),
                 ]
             );
             $user->assignRole($userRole);

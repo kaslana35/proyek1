@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             ['email' => 'admin@sewa.com'],
             [
                 'name' => 'Admin Utama',
-                'password' => Hash::make('password123'),
+                'password' => Hash::make('Admin123@'),  // harus punya huruf besar, angka, special char
             ]
         );
         $admin->syncRoles([$adminRole]);
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
             ['email' => 'user@sewa.com'],
             [
                 'name' => 'User Biasa',
-                'password' => Hash::make('password123'),
+                'password' => Hash::make('UserLaptop@2024'),  // harus punya huruf besar, angka, special char
             ]
         );
         $user->syncRoles([$userRole]);

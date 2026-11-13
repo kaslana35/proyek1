@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller {
     public function showRegister() {
@@ -16,7 +17,13 @@ class AuthController extends Controller {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
-            'password' => 'required|string|min:6|confirmed',
+            'password' => ['required', 'string', 'min:8', 'max:255',
+                'regex:/[a-z]/',         // minimal 1 huruf kecil
+                'regex:/[A-Z]/',         // minimal 1 huruf besar
+                'regex:/[0-9]/',         // minimal 1 angka
+                'regex:/[@$!%*#?&]/',   // minimal 1 special char
+                'confirmed',
+            ],
         ]);
 
         $user = User::create([
@@ -28,6 +35,13 @@ class AuthController extends Controller {
         $user->assignRole('user');
 
         auth()->login($user);
+
+        Log::info('Successful registration', [
+            'user_id' => $user->id,
+            'email' => $user->email,
+            'ip' => $request->ip(),
+            'timestamp' => now(),
+        ]);
 
         return redirect()->intended(route('laptops.index'))->with('success', 'Registrasi berhasil! Selamat datang.');
     }
@@ -43,7 +57,12 @@ class AuthController extends Controller {
                 'email', 
                 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'
             ],
-            'password' => 'required|string|min:8',
+            'password' => ['required', 'string', 'min:8', 'max:255',
+                'regex:/[a-z]/',         // minimal 1 huruf kecil
+                'regex:/[A-Z]/',         // minimal 1 huruf besar
+                'regex:/[0-9]/',         // minimal 1 angka
+                'regex:/[@$!%*#?&]/',   // minimal 1 special char
+            ],
         ]);
 
         $credentials = [
@@ -53,8 +72,23 @@ class AuthController extends Controller {
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $user = auth()->user();
+            Log::info('Successful login', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'role' => $user->getRoleNames()->implode(', '),
+                'ip' => $request->ip(),
+                'timestamp' => now(),
+            ]);
             return auth()->user()->hasRole('admin') ? redirect()->route('dashboard') : redirect()->route('laptops.index');
         }
+
+        Log::warning('Failed login attempt', [
+            'ip' => $request->ip(),
+            'user_agent' => $request->userAgent(),
+            'email' => $request->email,
+            'timestamp' => now(),
+        ]);
 
         return back()->withErrors(['email' => 'Email atau password tidak sesuai.']);
     }
@@ -65,6 +99,11 @@ class AuthController extends Controller {
 
     public function sendResetLink(Request $request) {
         $request->validate(['email' => 'required|email|exists:users,email']);
+        Log::info('Password reset link sent', [
+            'email' => $request->email,
+            'ip' => $request->ip(),
+            'timestamp' => now(),
+        ]);
         return back()->with('status', 'Link reset password sudah dikirim ke email kamu!');
     }
 }

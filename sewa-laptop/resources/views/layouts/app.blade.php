@@ -31,11 +31,7 @@
         a, button, [role="button"], input[type="submit"], select, label[for] { cursor: pointer; }
         input, textarea { cursor: text; }
         .transition-smooth { transition: all 200ms ease-in-out; }
-        /* Dark mode scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        
     </style>
     <script>
         // Dark mode toggle
@@ -87,18 +83,18 @@
 
                     <div class="border-l border-gray-300 dark:border-slate-600 pl-6 flex items-center gap-4">
                         <!-- Dark Mode Toggle -->
-                        <button onclick="toggleTheme()" class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 transition-smooth" title="Toggle Dark Mode">
+                        <button onclick="toggleTheme()" class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 transition-smooth focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" title="Toggle Dark Mode">
                             <svg id="sunIcon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                             <svg id="moonIcon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                         </button>
-                        <a href="{{ route('profile.edit') }}" title="Profil" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-smooth">
+                        <a href="{{ route('profile.edit') }}" title="Profil" class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-smooth focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
                         </a>
                         <form action="/logout" method="POST" class="flex items-center">
                             @csrf
-                            <button type="submit" title="Logout" class="text-red-400 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-smooth">
+                            <button type="submit" title="Logout" class="text-red-400 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-smooth focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
@@ -109,7 +105,7 @@
                     <a href="{{ route('laptops.index') }}" class="text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 {{ request()->routeIs('laptops.index') ? 'font-bold text-blue-600 dark:text-blue-400' : '' }} transition-smooth">Katalog</a>
                     <a href="{{ route('login') }}" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold hover:bg-blue-700 transition-smooth shadow-sm">Login</a>
                     <!-- Dark Mode Toggle (Guest) -->
-                    <button onclick="toggleTheme()" class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 transition-smooth" title="Toggle Dark Mode">
+                    <button onclick="toggleTheme()" class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-slate-700 transition-smooth focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" title="Toggle Dark Mode">
                         <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
                         <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
                     </button>
