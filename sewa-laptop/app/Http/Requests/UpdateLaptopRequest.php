@@ -33,20 +33,24 @@ class UpdateLaptopRequest extends FormRequest
     private function validateSerialNumber(string $merk, string $serialNumber): void
     {
         $rules = [
-            'Asus'     => 12,
-            'Acer'     => 10,
-            'HP'       => 10,
-            'Apple'    => 12,
-            'Dell'     => 7,
-            'Lenovo'   => 8,
-            'Gigabyte' => 10,
+            'Asus'     => [15],
+            'Acer'     => [22],
+            'HP'       => [10],
+            'Apple'    => [10, 11, 12],
+            'Dell'     => [7],
+            'Lenovo'   => [8],
+            'Gigabyte' => [10],
+            'MSI'      => range(15, 20),
         ];
 
         if (array_key_exists($merk, $rules)) {
-            $expectedLength = $rules[$merk];
-            if (strlen($serialNumber) !== $expectedLength) {
+            $expectedLengths = $rules[$merk];
+            if (!in_array(strlen($serialNumber), $expectedLengths)) {
+                $lengthInfo = count($expectedLengths) === 1
+                    ? "persis {$expectedLengths[0]} karakter"
+                    : implode(' atau ', $expectedLengths) . " karakter";
                 throw ValidationException::withMessages([
-                    'serial_number' => "Serial Number untuk brand {$merk} harus persis {$expectedLength} karakter alfanumerik."
+                    'serial_number' => "Serial Number untuk brand {$merk} harus {$lengthInfo}."
                 ]);
             }
         }

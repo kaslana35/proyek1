@@ -40,7 +40,7 @@ class UserTest extends TestCase
         $user->assignRole('user');
 
         $laptop = Laptop::create([
-            'merk' => 'Asus', 'tipe' => 'Zenbook', 'spesifikasi' => 'i5', 'serial_number' => 'AS1234567890',
+            'merk' => 'Asus', 'tipe' => 'Zenbook', 'spesifikasi' => 'i5', 'serial_number' => 'AS1234567890123',
             'harga_sewa_per_hari' => 100000, 'stok' => 3, 'status' => 'ready'
         ]);
 

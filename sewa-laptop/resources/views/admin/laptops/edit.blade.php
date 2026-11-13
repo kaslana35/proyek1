@@ -13,7 +13,7 @@
                 <div>
                     <label class="block text-gray-700 text-sm font-semibold mb-2">Merk:</label>
                     <select name="merk" class="w-full h-11 px-4 border rounded-xl focus:ring-2 focus:ring-blue-500 bg-white" required>
-                        @foreach(['Asus', 'Acer', 'HP', 'Apple', 'Dell', 'Lenovo', 'Gigabyte'] as $merk)
+                        @foreach(['Asus', 'Acer', 'HP', 'Apple', 'Dell', 'Lenovo', 'Gigabyte', 'MSI'] as $merk)
                             <option value="{{ $merk }}" {{ $laptop->merk == $merk ? 'selected' : '' }}>{{ $merk }}</option>
                         @endforeach
                     </select>

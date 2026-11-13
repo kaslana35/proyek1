@@ -37,23 +37,27 @@ class LaptopSeeder extends Seeder
             ['merk' => 'HP', 'tipe' => 'Omen 15 en0013AX', 'spesifikasi' => 'Ryzen 7, 16GB RAM, 512GB SSD, GTX 1660Ti', 'serial_number' => 'HP99887766', 'harga_sewa_per_hari' => 280000, 'stok' => 2, 'status' => 'ready'],
             ['merk' => 'HP', 'tipe' => 'ZBook Firefly 14', 'spesifikasi' => 'Core i7, 32GB RAM, 1TB SSD', 'serial_number' => 'HP44332211', 'harga_sewa_per_hari' => 330000, 'stok' => 2, 'status' => 'ready'],
 
-            // Acer (10 karakter serial number)
-            ['merk' => 'Acer', 'tipe' => 'Aspire 5 A514', 'spesifikasi' => 'Core i5 Gen 11, 8GB RAM, 512GB SSD', 'serial_number' => 'AC12345678', 'harga_sewa_per_hari' => 120000, 'stok' => 6, 'status' => 'ready'],
-            ['merk' => 'Acer', 'tipe' => 'Swift 3 OLED', 'spesifikasi' => 'Ryzen 5 5600U, 16GB RAM, 512GB SSD', 'serial_number' => 'AC87654321', 'harga_sewa_per_hari' => 170000, 'stok' => 4, 'status' => 'ready'],
-            ['merk' => 'Acer', 'tipe' => 'Nitro 5 AN515', 'spesifikasi' => 'Core i5 Gen 11, 16GB RAM, 512GB SSD, RTX 3050', 'serial_number' => 'AC11223344', 'harga_sewa_per_hari' => 240000, 'stok' => 3, 'status' => 'ready'],
-            ['merk' => 'Acer', 'tipe' => 'TravelMate P2', 'spesifikasi' => 'Core i5 Gen 10, 8GB RAM, 256GB SSD', 'serial_number' => 'AC55667788', 'harga_sewa_per_hari' => 110000, 'stok' => 5, 'status' => 'ready'],
+            // Acer (22 karakter serial number)
+            ['merk' => 'Acer', 'tipe' => 'Aspire 5 A514', 'spesifikasi' => 'Core i5 Gen 11, 8GB RAM, 512GB SSD', 'serial_number' => 'AC1234567890123456789012', 'harga_sewa_per_hari' => 120000, 'stok' => 6, 'status' => 'ready'],
+            ['merk' => 'Acer', 'tipe' => 'Swift 3 OLED', 'spesifikasi' => 'Ryzen 5 5600U, 16GB RAM, 512GB SSD', 'serial_number' => 'AC8765432109876543210987', 'harga_sewa_per_hari' => 170000, 'stok' => 4, 'status' => 'ready'],
+            ['merk' => 'Acer', 'tipe' => 'Nitro 5 AN515', 'spesifikasi' => 'Core i5 Gen 11, 16GB RAM, 512GB SSD, RTX 3050', 'serial_number' => 'AC1122334455667788990011', 'harga_sewa_per_hari' => 240000, 'stok' => 3, 'status' => 'ready'],
+            ['merk' => 'Acer', 'tipe' => 'TravelMate P2', 'spesifikasi' => 'Core i5 Gen 10, 8GB RAM, 256GB SSD', 'serial_number' => 'AC5566778899001122334455', 'harga_sewa_per_hari' => 110000, 'stok' => 5, 'status' => 'ready'],
 
             // Gigabyte (10 karakter serial number)
             ['merk' => 'Gigabyte', 'tipe' => 'G5 KC', 'spesifikasi' => 'Core i5 Gen 10, 16GB RAM, 512GB SSD, RTX 3060', 'serial_number' => 'GB12345678', 'harga_sewa_per_hari' => 250000, 'stok' => 3, 'status' => 'ready'],
             ['merk' => 'Gigabyte', 'tipe' => 'Aero 15 OLED', 'spesifikasi' => 'Core i7 Gen 10, 16GB RAM, 512GB SSD', 'serial_number' => 'GB87654321', 'harga_sewa_per_hari' => 310000, 'stok' => 2, 'status' => 'ready'],
 
-            // Asus (12 karakter serial number)
-            ['merk' => 'Asus', 'tipe' => 'Vivobook Pro 14', 'spesifikasi' => 'Ryzen 5, 16GB RAM, 512GB SSD', 'serial_number' => 'AS1234567890', 'harga_sewa_per_hari' => 200000, 'stok' => 4, 'status' => 'ready'],
-            ['merk' => 'Asus', 'tipe' => 'Zenbook 14 UX425', 'spesifikasi' => 'Core i5 Gen 11, 8GB RAM, 512GB SSD', 'serial_number' => 'AS0987654321', 'harga_sewa_per_hari' => 210000, 'stok' => 4, 'status' => 'ready'],
-            ['merk' => 'Asus', 'tipe' => 'TUF Gaming F15', 'spesifikasi' => 'Core i5 Gen 11, 8GB RAM, 512GB SSD, RTX 3050', 'serial_number' => 'AS1122334455', 'harga_sewa_per_hari' => 260000, 'stok' => 5, 'status' => 'ready'],
-            ['merk' => 'Asus', 'tipe' => 'ROG Strix G15', 'spesifikasi' => 'Ryzen 7, 16GB RAM, 512GB SSD, RTX 3070', 'serial_number' => 'AS5566778899', 'harga_sewa_per_hari' => 350000, 'stok' => 2, 'status' => 'ready'],
+            // Asus (15 karakter serial number)
+            ['merk' => 'Asus', 'tipe' => 'Vivobook Pro 14', 'spesifikasi' => 'Ryzen 5, 16GB RAM, 512GB SSD', 'serial_number' => 'AS1234567890123', 'harga_sewa_per_hari' => 200000, 'stok' => 4, 'status' => 'ready'],
+            ['merk' => 'Asus', 'tipe' => 'Zenbook 14 UX425', 'spesifikasi' => 'Core i5 Gen 11, 8GB RAM, 512GB SSD', 'serial_number' => 'AS0987654321098', 'harga_sewa_per_hari' => 210000, 'stok' => 4, 'status' => 'ready'],
+            ['merk' => 'Asus', 'tipe' => 'TUF Gaming F15', 'spesifikasi' => 'Core i5 Gen 11, 8GB RAM, 512GB SSD, RTX 3050', 'serial_number' => 'AS1122334455667', 'harga_sewa_per_hari' => 260000, 'stok' => 5, 'status' => 'ready'],
+            ['merk' => 'Asus', 'tipe' => 'ROG Strix G15', 'spesifikasi' => 'Ryzen 7, 16GB RAM, 512GB SSD, RTX 3070', 'serial_number' => 'AS5566778899001', 'harga_sewa_per_hari' => 350000, 'stok' => 2, 'status' => 'ready'],
 
-            // Apple (12 karakter serial number)
+            // MSI (15-20 karakter serial number)
+            ['merk' => 'MSI', 'tipe' => 'GF63 Thin 11SC', 'spesifikasi' => 'Core i5 Gen 11, 8GB RAM, 512GB SSD, GTX 1650', 'serial_number' => '9S716R512123456789', 'harga_sewa_per_hari' => 230000, 'stok' => 3, 'status' => 'ready'],
+            ['merk' => 'MSI', 'tipe' => 'Katana GF76', 'spesifikasi' => 'Core i7 Gen 11, 16GB RAM, 512GB SSD, RTX 3050', 'serial_number' => '9S717R6123456789012', 'harga_sewa_per_hari' => 300000, 'stok' => 2, 'status' => 'ready'],
+
+            // Apple (10-12 karakter serial number)
             ['merk' => 'Apple', 'tipe' => 'MacBook Air M1', 'spesifikasi' => 'Apple M1 Chip, 8GB RAM, 256GB SSD', 'serial_number' => 'AP1234567890', 'harga_sewa_per_hari' => 300000, 'stok' => 3, 'status' => 'ready'],
             ['merk' => 'Apple', 'tipe' => 'MacBook Pro 14 M2', 'spesifikasi' => 'Apple M2 Pro, 16GB RAM, 512GB SSD', 'serial_number' => 'AP0987654321', 'harga_sewa_per_hari' => 450000, 'stok' => 2, 'status' => 'ready'],
             ['merk' => 'Apple', 'tipe' => 'MacBook Air M2', 'spesifikasi' => 'Apple M2 Chip, 8GB RAM, 256GB SSD', 'serial_number' => 'AP1122334455', 'harga_sewa_per_hari' => 370000, 'stok' => 3, 'status' => 'ready'],

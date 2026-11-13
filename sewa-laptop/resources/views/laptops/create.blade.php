@@ -14,7 +14,7 @@
                     <label class="block text-gray-700 text-sm font-semibold mb-2">Merk:</label>
                     <select name="merk" class="w-full h-11 px-4 border rounded-xl focus:ring-2 focus:ring-blue-500 bg-white" required>
                         <option value="">-- Pilih Merk --</option>
-                        @foreach(['Asus', 'Acer', 'HP', 'Apple', 'Dell', 'Lenovo', 'Gigabyte'] as $merk)
+                        @foreach(['Asus', 'Acer', 'HP', 'Apple', 'Dell', 'Lenovo', 'Gigabyte', 'MSI'] as $merk)
                             <option value="{{ $merk }}" {{ old('merk') == $merk ? 'selected' : '' }}>{{ $merk }}</option>
                         @endforeach
                     </select>
@@ -25,7 +25,7 @@
                 </div>
                 <div>
                     <label class="block text-gray-700 text-sm font-semibold mb-2">Serial Number:</label>
-                    <input type="text" name="serial_number" value="{{ old('serial_number') }}" placeholder="Dell=7, Lenovo=8, HP/Acer/Gigabyte=10, Asus/Apple=12" class="w-full h-11 px-4 border rounded-xl focus:ring-2 focus:ring-blue-500" required>
+                    <input type="text" name="serial_number" value="{{ old('serial_number') }}" placeholder="Dell=7, Lenovo=8, HP=10, Acer=22, Asus=15, Apple=10-12, MSI=15-20" class="w-full h-11 px-4 border rounded-xl focus:ring-2 focus:ring-blue-500" required>
                 </div>
             </div>
 
