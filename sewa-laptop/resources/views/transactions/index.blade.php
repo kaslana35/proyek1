@@ -93,6 +93,8 @@
     </div>
 @endif
 
+<div class="mt-6">{{ $transactions->links() }}</div>
+
 <div class="hidden print-only mt-12 flex justify-between text-xs text-black">
     <div class="text-center">
         <p>Mengetahui,</p>

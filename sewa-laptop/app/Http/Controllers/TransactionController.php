@@ -18,7 +18,7 @@ class TransactionController extends Controller
             $query->where('status', $request->status);
         }
 
-        $transactions = $query->orderBy('created_at', 'desc')->get();
+        $transactions = $query->orderBy('created_at', 'desc')->paginate(5)->withQueryString();
         return view('transactions.index', compact('transactions'));
     }
 
