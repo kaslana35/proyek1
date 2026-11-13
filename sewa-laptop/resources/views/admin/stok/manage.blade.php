@@ -52,4 +52,5 @@
         </tbody>
     </table>
 </div>
+<div class="mt-4">{{ $laptops->links() }}</div>
 @endsection
