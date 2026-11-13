@@ -43,7 +43,8 @@
                             <option value="maintenance">Maintenance</option>
                             <option value="not_ready">Not Ready</option>
                         </select>
-                        <input type="number" name="qty" min="1" class="w-16 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" required>
+                        <input type="number" name="qty" min="1" class="w-16 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" required placeholder="Qty">
+                        <input type="text" name="catatan" class="w-32 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" placeholder="Catatan" required>
                         <button class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-smooth">Transfer</button>
                     </form>
                 </td>

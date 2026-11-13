@@ -23,9 +23,10 @@ class AdminStokController extends Controller {
             'qty' => 'required|integer|min:1',
             'to'   => 'required|in:ready,maintenance,not_ready',
             'from'   => 'required|in:ready,maintenance,not_ready',
+            'catatan' => 'required|string|max:255'
         ]);
 
-        if ($request->from === $request->target) {
+        if ($request->from === $request->to) {
             return back()->withErrors(['error' => 'Sumber dan target tidak boleh sama.']);
         }
 
@@ -48,7 +49,7 @@ class AdminStokController extends Controller {
                 'status_sebelum' => $request->from,
                 'status_sesudah' => $request->to,
                 'jumlah' => $request->qty,
-                'catatan' => "Transfer stok dari " . ucfirst($request->from) . " ke " . ucfirst($request->to)
+                'catatan' => $request->catatan
             ]);
 
             DB::commit();
