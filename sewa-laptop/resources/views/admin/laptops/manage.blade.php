@@ -30,8 +30,8 @@
                 <!-- Ke Maintenance / Not Ready -->
                 <form action="{{ route('admin.stok.transfer', $l->id) }}" method="POST" class="flex gap-2 mb-2">
                     @csrf @method('PUT')
-                    <input type="number" name="jumlah" class="w-12 border" placeholder="Jml" required>
-                    <select name="target" class="border text-xs">
+                    <input type="number" name="jumlah" class="w-12 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" placeholder="Jml" required>
+                    <select name="target" class="border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300">
                         <option value="maintenance">Ke Maint</option>
                         <option value="not_ready">Ke Not Ready</option>
                     </select>
@@ -40,9 +40,9 @@
                 <!-- Ke Ready (dari Maintenance / Not Ready) -->
                 <form action="{{ route('admin.stok.transfer', $l->id) }}" method="POST" class="flex gap-2">
                     @csrf @method('PUT')
-                    <input type="number" name="jumlah" class="w-12 border" placeholder="Jml" required>
+                    <input type="number" name="jumlah" class="w-12 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" placeholder="Jml" required>
                     <input type="hidden" name="target" value="ready">
-                    <select name="from" class="border text-xs">
+                    <select name="from" class="border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300">
                         <option value="maintenance">Dari Maint</option>
                         <option value="not_ready">Dari Not Ready</option>
                     </select>
