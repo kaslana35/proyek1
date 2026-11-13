@@ -4,10 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title') - SewaLaptop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#2563EB',
+                        accent: '#EA580C',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif; }
+        * { cursor: pointer; }
+        a, button, [role="button"], input[type="submit"], select, label[for] { cursor: pointer; }
+        input, textarea { cursor: text; }
+        .transition-smooth { transition: all 150ms ease-in-out; }
+    </style>
 </head>
 <body class="bg-gray-100 min-h-screen pb-16 md:pb-0">
-    <nav class="bg-blue-600 text-white shadow-lg sticky top-0 z-50">
+    <nav class="bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg sticky top-0 z-50 backdrop-blur-sm">
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <!-- Logo -->
             <a href="{{ route('laptops.index') }}" class="font-bold text-lg tracking-tight text-white flex items-center gap-2">
@@ -113,7 +138,7 @@
     </div>
 
     <!-- Footer Korporat -->
-    <footer class="bg-white border-t border-gray-200 mt-20 py-8 text-center text-xs text-gray-500 no-print">
+    <footer class="bg-white border-t border-gray-200 mt-20 py-10 text-center text-xs text-gray-500 no-print">
         <div class="container mx-auto px-4">
             <p class="font-semibold text-gray-700">Sewa Laptop Enterprise Core &copy; {{ date('Y') }}</p>
             <p class="mt-1">Sistem Manajemen & Penyewaan Laptop Terintegrasi. Hak Cipta Dilindungi.</p>
