@@ -2,58 +2,60 @@
 @section('title', 'Manajemen Stok')
 @section('content')
 <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-800">Manajemen Stok</h1>
-    <a href="{{ route('admin.laptops.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Tambah</a>
+    <div>
+        <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Manajemen Stok</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Kelola stok fisik dan transfer antar status.</p>
+    </div>
+    <a href="{{ route('dashboard') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-smooth">Kembali</a>
 </div>
 
-<div class="grid grid-cols-3 gap-4 mb-6 text-center">
-    <div class="bg-green-100 p-4 rounded">Ready: {{ $summary['ready'] }}</div>
-    <div class="bg-yellow-100 p-4 rounded">Maint: {{ $summary['maintenance'] }}</div>
-    <div class="bg-orange-100 p-4 rounded">Not Ready: {{ $summary['not_ready'] }}</div>
-</div>
+@if(session('success'))
+    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 p-4 rounded-xl mb-6 text-sm font-medium">
+        {{ session('success') }}
+    </div>
+@endif
 
-<table class="w-full bg-white shadow rounded overflow-hidden">
-    <thead class="bg-gray-800 text-white text-xs">
-        <tr>
-            <th class="p-3">Laptop</th>
-            <th class="p-3">Stok Ready</th>
-            <th class="p-3">Transfer Stok</th>
-            <th class="p-3">Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($laptops as $l)
-        <tr>
-            <td class="p-3 font-bold">{{ $l->merk }} {{ $l->tipe }}</td>
-            <td class="p-3">R:{{ $l->stok }} | M:{{ $l->maintenance_stok }} | NR:{{ $l->not_ready_stok }}</td>
-            <td class="p-3">
-                <!-- Ke Maintenance / Not Ready -->
-                <form action="{{ route('admin.stok.transfer', $l->id) }}" method="POST" class="flex gap-2 mb-2">
-                    @csrf @method('PUT')
-                    <input type="number" name="jumlah" class="w-12 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" placeholder="Jml" required>
-                    <select name="target" class="border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300">
-                        <option value="maintenance">Ke Maint</option>
-                        <option value="not_ready">Ke Not Ready</option>
-                    </select>
-                    <button class="bg-red-500 text-white px-2 py-1 text-xs">Kirim</button>
-                </form>
-                <!-- Ke Ready (dari Maintenance / Not Ready) -->
-                <form action="{{ route('admin.stok.transfer', $l->id) }}" method="POST" class="flex gap-2">
-                    @csrf @method('PUT')
-                    <input type="number" name="jumlah" class="w-12 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" placeholder="Jml" required>
-                    <input type="hidden" name="target" value="ready">
-                    <select name="from" class="border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300">
-                        <option value="maintenance">Dari Maint</option>
-                        <option value="not_ready">Dari Not Ready</option>
-                    </select>
-                    <button class="bg-green-500 text-white px-2 py-1 text-xs">Ambil</button>
-                </form>
-            </td>
-            <td class="p-3">
-                <a href="{{ route('admin.laptops.edit', $l->id) }}" class="bg-yellow-500 text-white px-3 py-1 rounded text-xs hover:bg-yellow-600">Edit</a>
-            </td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+<div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="w-full text-left min-w-[600px]">
+            <thead class="bg-gray-50 dark:bg-slate-700/50 text-gray-600 dark:text-gray-300 uppercase text-xs tracking-wider border-b border-gray-100 dark:border-slate-700">
+                <tr>
+                    <th class="p-4 font-semibold">Merek & Tipe</th>
+                    <th class="p-4 font-semibold">Stok</th>
+                    <th class="p-4 font-semibold">Transfer</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100 dark:divide-slate-700">
+                @foreach($laptops as $l)
+                <tr class="hover:bg-gray-50/50 dark:hover:bg-slate-700/30 transition-smooth">
+                    <td class="p-4 font-bold text-gray-800 dark:text-gray-100">{{ $l->merk }} {{ $l->tipe }}</td>
+                    <td class="p-4 text-gray-700 dark:text-gray-300 text-sm">
+                        R:{{ $l->stok }} | M:{{ $l->maintenance_stok }} | NR:{{ $l->not_ready_stok }}
+                    </td>
+                    <td class="p-4">
+                        <form action="{{ route('admin.stok.transfer', $l->id) }}" method="POST" class="flex flex-wrap gap-2 items-center">
+                            @csrf @method('PUT')
+                            <input type="number" name="jumlah" class="w-12 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" placeholder="Jml" required>
+                            <select name="from" class="border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300">
+                                <option value="ready">Ready</option>
+                                <option value="maintenance">Maint</option>
+                                <option value="not_ready">Not Ready</option>
+                            </select>
+                            <span class="text-gray-400 dark:text-gray-500 text-xs font-bold">→</span>
+                            <select name="target" class="border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300">
+                                <option value="maintenance">Maint</option>
+                                <option value="not_ready">Not Ready</option>
+                                <option value="ready">Ready</option>
+                            </select>
+                            <input type="text" name="catatan" class="w-24 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" placeholder="Catatan" required>
+                            <button class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-smooth">Kirim</button>
+                        </form>
+                    </td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+    <div class="mt-4">{{ $laptops->links() }}</div>
+</div>
 @endsection

@@ -35,8 +35,15 @@ class TransactionController extends Controller
     // Admin Menyetujui Transaksi
     public function approve(Transaction $transaction)
     {
-        $transaction->update(['status' => 'approved']);
-        return back()->with('success', 'Transaksi berhasil disetujui!');
+        DB::beginTransaction();
+        try {
+            $transaction->update(['status' => 'approved']);
+            DB::commit();
+            return back()->with('success', 'Transaksi berhasil disetujui!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Gagal menyetujui transaksi.']);
+        }
     }
 
     // Admin Menyelesaikan Transaksi (Barang Kembali & Stok Kembali)

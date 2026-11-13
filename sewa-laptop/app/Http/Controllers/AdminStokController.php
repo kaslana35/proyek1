@@ -20,13 +20,13 @@ class AdminStokController extends Controller {
 
     public function transferStok(Request $request, Laptop $laptop) {
         $request->validate([
-            'qty' => 'required|integer|min:1',
-            'to'   => 'required|in:ready,maintenance,not_ready',
+            'jumlah' => 'required|integer|min:1',
+            'target' => 'required|in:ready,maintenance,not_ready',
             'from'   => 'required|in:ready,maintenance,not_ready',
             'catatan' => 'required|string|max:255'
         ]);
 
-        if ($request->from === $request->to) {
+        if ($request->from === $request->target) {
             return back()->withErrors(['error' => 'Sumber dan target tidak boleh sama.']);
         }
 
@@ -35,20 +35,20 @@ class AdminStokController extends Controller {
             $sources = ['ready' => 'stok', 'maintenance' => 'maintenance_stok', 'not_ready' => 'not_ready_stok'];
             
             $srcCol = $sources[$request->from];
-            $tgtCol = $sources[$request->to];
+            $tgtCol = $sources[$request->target];
 
-            if ($laptop->$srcCol < $request->qty) {
+            if ($laptop->$srcCol < $request->jumlah) {
                 throw new \Exception("Stok di " . ucfirst($request->from) . " tidak mencukupi.");
             }
 
-            $laptop->decrement($srcCol, $request->qty);
-            $laptop->increment($tgtCol, $request->qty);
+            $laptop->decrement($srcCol, $request->jumlah);
+            $laptop->increment($tgtCol, $request->jumlah);
             
             UnitInspection::create([
                 'laptop_id' => $laptop->id,
                 'status_sebelum' => $request->from,
-                'status_sesudah' => $request->to,
-                'jumlah' => $request->qty,
+                'status_sesudah' => $request->target,
+                'jumlah' => $request->jumlah,
                 'catatan' => $request->catatan
             ]);
 
