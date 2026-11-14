@@ -24,7 +24,16 @@ return Application::configure(basePath: dirname(__DIR__))
             '192.168.0.0/16',
         ]);
         $middleware->trustHosts(
-            at: [parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)],
+            at: function () {
+                $hosts = [];
+                if ($host = parse_url(env('APP_URL'), PHP_URL_HOST)) {
+                    $hosts[] = $host;
+                }
+                // Allow PaaS dynamic domains (Railway, Heroku) as fallback
+                $hosts[] = '^.+\.up\.railway\.app$';
+                $hosts[] = '^.+\.herokuapp\.com$';
+                return array_unique($hosts);
+            },
             subdomains: false
         );
         $middleware->alias([

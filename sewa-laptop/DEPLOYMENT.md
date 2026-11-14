@@ -7,11 +7,17 @@ Copy `.env.example` to `.env` and set:
 ```bash
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://your-domain.com
+APP_URL=https://your-domain.com   # PENTING: set sesuai domain production (Railway/Heroku/VPS)
 APP_KEY=base64:...   # php artisan key:generate
 SESSION_SECURE_COOKIE=true
+SESSION_DOMAIN=null   # scope cookie ke host exact (cegah subdomain cookie sharing)
 SANCTUM_TOKEN_EXPIRATION=1440
 ```
+
+> **Catatan Railway/Heroku**: Pastikan `APP_URL` di-set ke domain production Anda
+> (contoh: `https://proyek1-production-12ad.up.railway.app`). Kode sudah
+> mengizinkan domain `*.up.railway.app` dan `*.herokuapp.com` secara otomatis
+> sebagai fallback jika `APP_URL` belum dikonfigurasi.
 
 ## 2. Database
 

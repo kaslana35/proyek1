@@ -28,16 +28,22 @@ Proyek ini dibangun menggunakan arsitektur **MVC (Model-View-Controller)** denga
 
 ### Middleware (`app/Http/Middleware/`)
 - **`LogRequests.php`** — Middleware pencatatan semua respon API (200, 201, 400, 401, 403, 404, 429, 500) ke `laravel.log`.
+- **`SetSecurityHeaders.php`** — Middleware header keamanan (CSP, X-Frame-Options, X-Content-Type-Options, dll).
+- **`ForceHttps.php`** — Middleware paksa HTTPS di lingkungan production.
+
+### Policies (`app/Policies/`)
+- **`LaptopPolicy.php`** — Otorisasi CRUD laptop (mencegah IDOR).
+- **`TransactionPolicy.php`** — Otorisasi transaksi (view, update, cancel dengan ownership check).
 
 ### Models (`app/Models/`)
 - **`Laptop.php`** — Model laptop dengan pencegahan stok negatif (*clamping*) dan manajemen status otomatis.
 - **`Transaction.php`** — Model transaksi dengan relasi ke User dan Laptop.
 - **`Review.php`** — Model untuk ulasan dan rating produk.
 - **`UnitInspection.php`** — Model untuk audit log perpindahan status unit fisik (dengan catatan).
-- **`User.php`** — Model pengguna dengan implementasi *Role-Based Access Control* (Spatie) dan *Sanctum Tokens*.
+- **`User.php`** — Model pengguna dengan implementasi *Role-Based Access Control* (Spatie), *Sanctum Tokens*, dan account lockout (anti-brute force).
 
 ### Providers (`app/Providers/`)
-- **`AppServiceProvider.php`** — Konfigurasi Rate Limiter ('api': 60 req/menit, 'auth': 5 req/menit).
+- **`AppServiceProvider.php`** — Konfigurasi Rate Limiter ('api': 60 req/menit, 'login': 5 req/menit per IP+email, 'login-global': 100 req/menit, 'password-reset': 3 req/menit), Trust Proxies, Trust Hosts, dan registrasi Policy.
 
 ---
 
@@ -75,7 +81,7 @@ Proyek ini dibangun menggunakan arsitektur **MVC (Model-View-Controller)** denga
 
 - **`routes/web.php`** — Rute web dengan proteksi *middleware* autentikasi (`auth`) dan otorisasi peran (`role:admin` / `role:user`).
 - **`routes/api.php`** — Rute API dengan proteksi Laravel Sanctum, *Rate Limiter* (`throttle`), dan *Role-Based Access Control* (`role:admin`).
-- **`bootstrap/app.php`** — Konfigurasi *Kernel*, *Middleware* kustom (LogRequests), dan penjadwalan otomatis (*Scheduler* untuk pemeriksaan masa sewa).
+- **`bootstrap/app.php`** — Konfigurasi *Kernel*, *Middleware* kustom (LogRequests, SetSecurityHeaders, ForceHttps), Trust Proxies/Hosts, dan penjadwalan otomatis (*Scheduler* untuk pemeriksaan masa sewa).
 
 ---
 
@@ -83,6 +89,7 @@ Proyek ini dibangun menggunakan arsitektur **MVC (Model-View-Controller)** denga
 
 - **`tests/Feature/AdminTest.php`** — Pengujian otomatis (*Feature Test*) untuk alur kerja admin (tambah produk, setujui, dan selesaikan transaksi).
 - **`tests/Feature/UserTest.php`** — Pengujian otomatis untuk alur kerja pengguna (registrasi, melihat katalog, dan penyewaan).
+- **`tests/Feature/AccountLockoutTest.php`** — Pengujian account lockout (4 test cases).
 
 ---
 
