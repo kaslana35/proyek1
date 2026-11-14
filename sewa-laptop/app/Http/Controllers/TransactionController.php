@@ -35,6 +35,7 @@ class TransactionController extends Controller
     // Admin Menyetujui Transaksi
     public function approve(Transaction $transaction)
     {
+        $this->authorize('update', $transaction);
         DB::beginTransaction();
         try {
             $transaction->update(['status' => 'approved']);
@@ -49,6 +50,7 @@ class TransactionController extends Controller
     // Admin Menyelesaikan Transaksi (Barang Kembali & Stok Kembali)
     public function complete(Transaction $transaction)
     {
+        $this->authorize('update', $transaction);
         if ($transaction->status !== 'approved') {
             return back()->withErrors(['error' => 'Hanya transaksi yang disetujui yang dapat diselesaikan.']);
         }

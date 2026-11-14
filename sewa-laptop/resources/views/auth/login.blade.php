@@ -47,6 +47,20 @@
             <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">SewaLaptop Enterprise Core</p>
         </div>
 
+        @if(session('success') || session('status') || $errors->any())
+            <div class="mb-4 space-y-2">
+                @if(session('success'))
+                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 rounded-xl text-sm font-medium">{{ session('success') }}</div>
+                @endif
+                @if(session('status'))
+                    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 rounded-xl text-sm font-medium">{{ session('status') }}</div>
+                @endif
+                @if($errors->any())
+                    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-xl text-sm font-medium">{{ $errors->first() }}</div>
+                @endif
+            </div>
+        @endif
+
         <form action="{{ route('login') }}" method="POST">
             @csrf
             <div class="mb-4">

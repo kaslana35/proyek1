@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+    Route::post('/login', [AuthController::class, 'login'])->middleware(['throttle:login', 'throttle:login-global']);
     Route::get('/forgot-password', [AuthController::class, 'showForgot'])->name('password.request');
-    Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email')->middleware('throttle:3,1');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email')->middleware('throttle:password-reset');
 
 // Halaman Utama: Redirect otomatis ke /login atau dashboard/katalog
 Route::get('/', function () {
@@ -29,10 +29,12 @@ Route::get('/', function () {
 
 // Rute untuk semua (Logout & Profil)
 Route::middleware(['auth'])->group(function () {
-    Route::post('/logout', function () {
+    Route::post('/logout', function (Illuminate\Http\Request $request) {
         auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect('/login')->with('success', 'Anda telah berhasil logout.');
-    });
+    })->name('logout');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -66,10 +68,11 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 });
 
 // Rute untuk User / Publik (Katalog & Detail)
-// Alias: /katalog juga bisa digunakan untuk akses katalog
-Route::get('/laptops', [CatalogController::class, 'index'])->name('laptops.index');
-Route::get('/laptops/{laptop}', [CatalogController::class, 'show'])->name('laptops.show');
-Route::get('/katalog', [CatalogController::class, 'index'])->name('katalog');
+Route::middleware('throttle:60,1')->group(function () {
+    Route::get('/laptops', [CatalogController::class, 'index'])->name('laptops.index');
+    Route::get('/laptops/{laptop}', [CatalogController::class, 'show'])->name('laptops.show');
+    Route::get('/katalog', [CatalogController::class, 'index'])->name('katalog');
+});
 
 // Rute khusus User yang harus login & punya role user
 Route::middleware(['auth', 'role:user'])->group(function () {

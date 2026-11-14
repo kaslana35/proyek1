@@ -23,6 +23,20 @@ class UserController extends Controller
     public function updateRole(Request $request, User $user)
     {
         $request->validate(['role' => 'required|exists:roles,name']);
+
+        // Prevent self-lockout: admin cannot remove their own admin role
+        if ($user->id === auth()->id() && $request->role !== 'admin') {
+            return back()->withErrors(['error' => 'Anda tidak dapat mencabut role admin dari akun Anda sendiri.']);
+        }
+
+        // Prevent removing the last admin
+        if ($request->role !== 'admin' && $user->hasRole('admin')) {
+            $adminCount = User::role('admin')->count();
+            if ($adminCount <= 1) {
+                return back()->withErrors(['error' => 'Tidak dapat menghapus role admin terakhir. Sistem harus memiliki minimal 1 admin.']);
+            }
+        }
+
         $user->syncRoles($request->role);
         return redirect()->route('admin.users.index')->with('success', 'Role user berhasil diupdate!');
     }

@@ -19,7 +19,7 @@ class StoreLaptopRequest extends FormRequest
             'tipe' => 'required|string|max:255',
             'spesifikasi' => 'required|string',
             'serial_number' => 'required|string|unique:laptops,serial_number',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048|dimensions:min_width=1,min_height=1,max_width=8000,max_height=8000',
             'harga_sewa_per_hari' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
         ];

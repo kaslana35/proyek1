@@ -60,15 +60,21 @@ Proyek ini dibangun untuk mengatasi masalah tersebut dengan menerapkan:
 | Aspek | Status | Implementasi |
 |-------|--------|-------------|
 | SQL Injection | ✅ Kebal | Eloquent parameter binding |
-| XSS (Web) | ✅ Kebal | Blade `{{ }}` auto-escaping |
+| XSS (Web) | ✅ Kebal | Blade `{{ }}` auto-escaping + CSP |
 | CSRF | ✅ Aktif | `@csrf` di semua form |
 | Mass Assignment | ✅ Kebal | `$fillable` whitelist di semua model |
-| IDOR | ✅ Kebal | Ownership check pada transaksi |
+| IDOR | ✅ Kebal | Authorization Policy (`LaptopPolicy`, `TransactionPolicy`) |
 | Brute Force | ✅ Kebal | Rate limiter `throttle:5,1` |
-| API Flood | ✅ Kebal | Rate limiter `throttle:api` (60/min) |
+| API Flood | ✅ Kebal | Rate limiter `throttle:api` (60/min) + katalog (60/min) |
 | Race Condition | ✅ Kebal | `DB::beginTransaction()` + `lockForUpdate()` |
-| Broken Access Control | ✅ Kebal | `role:admin` middleware (Web + API) |
+| Broken Access Control | ✅ Kebal | `role:admin` middleware + Policy |
 | Enum Injection | ✅ Kebal | `in:ready,maintenance,empty,not_ready` validation |
+| Security Headers | ✅ Aktif | `SetSecurityHeaders` (CSP, X-Frame-Options, dll) |
+| Force HTTPS | ✅ Aktif | `ForceHttps` middleware (production) |
+| File Upload | ✅ Aman | `.htaccess` mencegah eksekusi script |
+| Session Security | ✅ Aman | Invalidate + regenerateToken on logout |
+| Password Policy | ✅ Ketat | `Password::defaults()->mixedCase()->numbers()->symbols()` |
+| Sanctum Token Expiry | ✅ 24 jam | `SANCTUM_TOKEN_EXPIRATION` |
 
 ---
 
@@ -89,14 +95,15 @@ Proyek ini dibangun untuk mengatasi masalah tersebut dengan menerapkan:
 ```
 sewa-laptop/
 ├── app/Http/Controllers/     # 12 controllers (Web + API)
-├── app/Http/Requests/        # Form Request validation (StoreLaptop, UpdateLaptop)
-├── app/Http/Middleware/      # LogRequests (API logging)
+├── app/Http/Middleware/      # LogRequests, SetSecurityHeaders, ForceHttps
+├── app/Policies/             # LaptopPolicy, TransactionPolicy
 ├── app/Models/               # 5 models (User, Laptop, Transaction, Review, UnitInspection)
-├── database/migrations/      # 20+ migration files
+├── database/migrations/      # 21+ migration files (incl. indexes)
 ├── database/seeders/         # DatabaseSeeder + LaptopSeeder (34 laptops)
 ├── resources/views/          # 18 Blade templates (Dark mode support)
 ├── routes/                   # web.php + api.php
 ├── tests/Feature/            # AdminTest.php + UserTest.php
+├── DEPLOYMENT.md             # Panduan operasional & deployment
 ├── struktur.md               # Dokumentasi struktur proyek
 └── deskripsi.md              # Dokumentasi deskripsi proyek
 ```
@@ -107,10 +114,8 @@ sewa-laptop/
 
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | `admin123@gmail.com` | `password123` |
-| User 1 | `bayu123@gmail.com` | `password123` |
-| User 2 | `budi456@gmail.com` | `password123` |
-| User 3 | `siti789@gmail.com` | `password123` |
+| Admin | `admin@sewa.com` | `Admin123@` |
+| User  | `user@sewa.com`  | `UserLaptop@2024` |
 
 ---
 
@@ -133,6 +138,16 @@ php artisan serve
 # 5. Jalankan tests
 php artisan test
 ```
+
+---
+
+## 9b. Deployment & Operasional
+
+Lihat `DEPLOYMENT.md` untuk panduan lengkap. Ringkasan:
+- Environment production: `APP_DEBUG=false`, `SESSION_SECURE_COOKIE=true`
+- Cron job: `* * * * * php artisan schedule:run`
+- Storage link: `php artisan storage:link`
+- Optimization: `php artisan optimize`
 
 ---
 

@@ -79,7 +79,7 @@
                                 <input type="date" name="tanggal_selesai" class="w-full border-gray-200 dark:border-slate-600 rounded-xl text-sm bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>
                             </div>
                         </div>
-                        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition">Sewa Sekarang</button>
+                        <button type="submit" onclick="this.disabled=true; this.innerText='Memproses...';" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">Sewa Sekarang</button>
                     </form>
                 @endif
             </div>

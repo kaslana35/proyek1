@@ -17,13 +17,7 @@ class AuthController extends Controller {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users', 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/'],
-            'password' => ['required', 'string', 'min:8', 'max:255',
-                'regex:/[a-z]/',         // minimal 1 huruf kecil
-                'regex:/[A-Z]/',         // minimal 1 huruf besar
-                'regex:/[0-9]/',         // minimal 1 angka
-                'regex:/[@$!%*#?&]/',   // minimal 1 special char
-                'confirmed',
-            ],
+            'password' => ['required', 'string', \Illuminate\Validation\Rules\Password::defaults()->mixedCase()->numbers()->symbols(), 'confirmed'],
         ]);
 
         $user = User::create([
@@ -65,6 +59,14 @@ class AuthController extends Controller {
             ],
         ]);
 
+        $user = User::where('email', strip_tags($request->email))->first();
+
+        // Account lockout check (anti-botnet)
+        if ($user && $user->isLocked()) {
+            $minutes = (int) now()->diffInMinutes($user->locked_until, false);
+            return back()->withErrors(['email' => "Akun terkunci sementara. Coba lagi dalam {$minutes} menit."]);
+        }
+
         $credentials = [
             'email' => strip_tags($request->email),
             'password' => $request->password,
@@ -72,6 +74,9 @@ class AuthController extends Controller {
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            if ($user) {
+                $user->resetFailedLogins();
+            }
             $user = auth()->user();
             Log::info('Successful login', [
                 'user_id' => $user->id,
@@ -81,6 +86,10 @@ class AuthController extends Controller {
                 'timestamp' => now(),
             ]);
             return auth()->user()->hasRole('admin') ? redirect()->route('dashboard') : redirect()->route('laptops.index');
+        }
+
+        if ($user) {
+            $user->recordFailedLogin();
         }
 
         Log::warning('Failed login attempt', [

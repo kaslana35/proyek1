@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class SetSecurityHeaders
@@ -29,14 +29,17 @@ class SetSecurityHeaders
         // Referrer Policy
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
 
+        // Vary header (cache poisoning mitigation)
+        $response->headers->set('Vary', 'Accept-Encoding');
+
         // Content Security Policy - hanya jika belum ada
         if (! $response->headers->has('Content-Security-Policy')) {
             $csp = "default-src 'self'; "
-                 . "script-src 'self' 'unsafe-inline'; "
-                 . "style-src 'self' 'unsafe-inline'; "
+                 . "script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com; "
+                 . "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+                 . "font-src 'self' https://fonts.gstatic.com; "
                  . "img-src 'self' data:; "
                  . "connect-src 'self'; "
-                 . "font-src 'self'; "
                  . "frame-src 'none'; ";
 
             $response->headers->set('Content-Security-Policy', $csp);

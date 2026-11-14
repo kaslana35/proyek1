@@ -18,9 +18,23 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('laptop:check-expired')->daily();
     })
     ->withMiddleware(function (Middleware $middleware): void {
+        $middleware->trustProxies(at: [
+            '10.0.0.0/8',
+            '172.16.0.0/12',
+            '192.168.0.0/16',
+        ]);
+        $middleware->trustHosts(
+            at: [parse_url(env('APP_URL', 'http://localhost'), PHP_URL_HOST)],
+            subdomains: false
+        );
         $middleware->alias([
             'role' => RoleMiddleware::class,
             'security.headers' => \App\Http\Middleware\SetSecurityHeaders::class,
+            'force.https' => \App\Http\Middleware\ForceHttps::class,
+        ]);
+        $middleware->web(append: [
+            \App\Http\Middleware\SetSecurityHeaders::class,
+            \App\Http\Middleware\ForceHttps::class,
         ]);
         $middleware->append(\App\Http\Middleware\LogRequests::class);
     })

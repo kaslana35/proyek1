@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('throttle:api')->group(function () {
     Route::get('/laptops', [ProductController::class, 'index']);
     Route::get('/laptops/{id}', [ProductController::class, 'show']);
-    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
+    Route::post('/login', [AuthController::class, 'login'])->middleware(['throttle:login', 'throttle:login-global']);
 });
 
 // Endpoint Terproteksi - Semua user yang login (Sanctum)

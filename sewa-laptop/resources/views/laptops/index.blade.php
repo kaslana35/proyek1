@@ -22,7 +22,7 @@
     <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden flex flex-col justify-between hover:shadow-lg hover:-translate-y-1 transition-smooth">
         <div>
             @if($laptop->image)
-                <img src="{{ asset('storage/' . $laptop->image) }}" class="w-full h-48 object-cover transition-transform duration-300 hover:scale-[101%]">
+                <img src="{{ asset('storage/' . $laptop->image) }}" class="w-full h-40 object-cover transition-transform duration-300 hover:scale-[101%]">
             @else
                 <div class="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-slate-700 dark:to-slate-600 flex items-center justify-center text-gray-400 dark:text-gray-500">
                     <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>

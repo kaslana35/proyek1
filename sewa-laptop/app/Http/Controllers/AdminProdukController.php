@@ -35,6 +35,8 @@ class AdminProdukController extends Controller {
     }
 
     public function update(UpdateLaptopRequest $request, Laptop $laptop) {
+        $this->authorize('update', $laptop);
+        
         $data = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -61,8 +63,13 @@ class AdminProdukController extends Controller {
     }
 
     public function destroy(Laptop $laptop) {
+        // Prevent deletion if there are active transactions
+        if ($laptop->transactions()->whereIn('status', ['pending', 'approved', 'active'])->exists()) {
+            return back()->withErrors(['error' => 'Laptop tidak dapat dihapus karena masih memiliki transaksi aktif.']);
+        }
+
         if ($laptop->image) Storage::disk('public')->delete($laptop->image);
         $laptop->delete();
-        return redirect()->route('admin.produk.manage')->with('success', 'Laptop dihapus!');
+        return redirect()->route('admin.produk.manage')->with('success', 'Laptop dihapus (soft delete)!');
     }
 }

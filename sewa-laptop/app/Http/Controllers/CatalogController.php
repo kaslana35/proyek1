@@ -38,6 +38,17 @@ class CatalogController extends Controller {
             'terms' => 'required|accepted',
         ]);
 
+        // Idempotency: prevent double submit within 60 seconds
+        $recentDuplicate = Transaction::where('user_id', auth()->id())
+            ->where('laptop_id', $laptop->id)
+            ->where('status', 'pending')
+            ->where('created_at', '>=', now()->subSeconds(60))
+            ->exists();
+
+        if ($recentDuplicate) {
+            return back()->withErrors(['error' => 'Permintaan sewa sedang diproses. Mohon tunggu sebentar.']);
+        }
+
         DB::beginTransaction();
         try {
             // Re-check stock inside transaction (prevent race condition)
