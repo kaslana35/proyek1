@@ -18,11 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $schedule->command('laptop:check-expired')->daily();
     })
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->trustProxies(at: [
-            '10.0.0.0/8',
-            '172.16.0.0/12',
-            '192.168.0.0/16',
-        ]);
+        $middleware->trustProxies(at: env('TRUSTED_PROXIES', '*'));
         $middleware->trustHosts(
             at: function () {
                 $hosts = [];
