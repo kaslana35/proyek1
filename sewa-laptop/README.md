@@ -1,5 +1,7 @@
 # Sewa Laptop Enterprise Core
 
+![Logo](public/images/logo.svg)
+
 ## 1. Ringkasan Eksekutif
 **Sewa Laptop Enterprise Core** adalah aplikasi web berbasis *Full-Stack* yang dirancang untuk mengotomatisasi dan mengelola proses bisnis penyewaan perangkat keras komputer (laptop) secara terintegrasi. Sistem ini menyediakan alur kerja menyeluruh (*end-to-end*), mulai dari katalog produk publik, manajemen inventaris fisik, siklus pemesanan, hingga pencatatan ulasan dan pelaporan operasional yang akurat.
 
