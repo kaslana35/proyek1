@@ -37,6 +37,10 @@ class AuthController extends Controller {
             'timestamp' => now(),
         ]);
 
+        if (session()->has('pending_sewa')) {
+            return redirect()->route('sewa.process_pending');
+        }
+
         $intended = session()->pull('url.intended', route('laptops.index'));
         if (is_string($intended) && str_contains($intended, '/sewa')) {
             $intended = preg_replace('#/sewa$#', '', $intended);
@@ -91,6 +95,11 @@ class AuthController extends Controller {
             ]);
             if (auth()->user()->hasRole('admin')) {
                 return redirect()->route('dashboard');
+            }
+
+            // Proses sewa pending (jika ada) setelah login
+            if (session()->has('pending_sewa')) {
+                return redirect()->route('sewa.process_pending');
             }
 
             // Redirect to intended URL, but convert POST sewa route to show page

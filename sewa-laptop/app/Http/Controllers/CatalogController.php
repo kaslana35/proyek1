@@ -32,6 +32,20 @@ class CatalogController extends Controller {
     }
 
     public function storeSewa(Request $request, Laptop $laptop) {
+        // Guest: simpan data sewa di session, redirect ke login
+        if (!auth()->check()) {
+            session()->put('pending_sewa', [
+                'laptop_id' => $laptop->id,
+                'tanggal_mulai' => $request->tanggal_mulai,
+                'tanggal_selesai' => $request->tanggal_selesai,
+            ]);
+            return redirect()->route('login')->with('info', 'Silakan login untuk melanjutkan sewa.');
+        }
+
+        if (!auth()->user()->hasRole('user')) {
+            abort(403, 'Hanya user yang dapat menyewa.');
+        }
+
         $request->validate([
             'tanggal_mulai' => 'required|date|after_or_equal:today',
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
@@ -49,23 +63,70 @@ class CatalogController extends Controller {
             return back()->withErrors(['error' => 'Permintaan sewa sedang diproses. Mohon tunggu sebentar.']);
         }
 
+        return $this->executeSewa(auth()->user(), $laptop, $request->tanggal_mulai, $request->tanggal_selesai);
+    }
+
+    public function processPendingSewa(Request $request)
+    {
+        $pending = session()->pull('pending_sewa');
+
+        if (!$pending || !isset($pending['laptop_id'])) {
+            return redirect()->route('laptops.index')->with('error', 'Tidak ada data sewa pending.');
+        }
+
+        $laptop = Laptop::find($pending['laptop_id']);
+        if (!$laptop) {
+            return redirect()->route('laptops.index')->with('error', 'Laptop tidak ditemukan.');
+        }
+
+        $user = auth()->user();
+        if (!$user->hasRole('user')) {
+            return redirect()->route('laptops.index')->with('error', 'Hanya user yang dapat menyewa.');
+        }
+
+        // Validate dates
+        $validator = \Illuminate\Support\Facades\Validator::make($pending, [
+            'tanggal_mulai' => 'required|date|after_or_equal:today',
+            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
+        ]);
+
+        if ($validator->fails()) {
+            session()->put('pending_sewa', $pending);
+            return redirect()->route('laptops.show', $laptop->id)->withErrors($validator)->with('error', 'Data sewa tidak valid. Silakan coba lagi.');
+        }
+
+        // Idempotency check
+        $recentDuplicate = Transaction::where('user_id', $user->id)
+            ->where('laptop_id', $laptop->id)
+            ->where('status', 'pending')
+            ->where('created_at', '>=', now()->subSeconds(60))
+            ->exists();
+
+        if ($recentDuplicate) {
+            return redirect()->route('transactions.index')->with('success', 'Permintaan sewa sedang diproses.');
+        }
+
+        return $this->executeSewa($user, $laptop, $pending['tanggal_mulai'], $pending['tanggal_selesai']);
+    }
+
+    protected function executeSewa($user, Laptop $laptop, $tanggal_mulai, $tanggal_selesai)
+    {
         DB::beginTransaction();
         try {
-            // Re-check stock inside transaction (prevent race condition)
             $laptop = Laptop::lockForUpdate()->find($laptop->id);
             if (!$laptop || $laptop->stok < 1 || $laptop->status !== 'ready') {
                 DB::rollBack();
-                return back()->withErrors(['stok' => 'Maaf, stok ready laptop ini sedang habis atau tidak tersedia.']);
+                return redirect()->route('laptops.show', $laptop->id ?? $laptop)->withErrors(['stok' => 'Maaf, stok ready laptop ini sedang habis atau tidak tersedia.']);
             }
 
-            $diff = (new \DateTime($request->tanggal_mulai))->diff(new \DateTime($request->tanggal_selesai))->days;
+            $diff = (new \DateTime($tanggal_mulai))->diff(new \DateTime($tanggal_selesai))->days;
 
             Transaction::create([
                 'laptop_id' => $laptop->id,
-                'user_id' => auth()->id(),
-                'nama_peminjam' => auth()->user()->name,
-                'tanggal_mulai' => $request->tanggal_mulai,
-                'tanggal_selesai' => $request->tanggal_selesai,
+                'user_id' => $user->id,
+                'nama_peminjam' => $user->name,
+                'tanggal_mulai' => $tanggal_mulai,
+                'tanggal_selesai' => $tanggal_selesai,
                 'total_biaya' => $diff * $laptop->harga_sewa_per_hari,
                 'status' => 'pending'
             ]);
@@ -76,7 +137,7 @@ class CatalogController extends Controller {
             }
 
             DB::commit();
-            return redirect()->route('transactions.index')->with('success', 'Berhasil!');
+            return redirect()->route('transactions.index')->with('success', 'Berhasil! Pesanan sewa Anda telah dibuat.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors(['error' => 'Gagal memproses penyewaan.']);

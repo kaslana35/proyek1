@@ -74,9 +74,14 @@ Route::middleware('throttle:60,1')->group(function () {
     Route::get('/katalog', [CatalogController::class, 'index'])->name('katalog');
 });
 
+// Proses sewa (guest ditangani di controller -> redirect login)
+Route::post('/laptops/{laptop}/sewa', [CatalogController::class, 'storeSewa'])->name('laptops.sewa')->middleware('throttle:60,1');
+
+// Proses sewa pending setelah login
+Route::get('/sewa/proses-pending', [CatalogController::class, 'processPendingSewa'])->name('sewa.process_pending')->middleware(['auth', 'role:user']);
+
 // Rute khusus User yang harus login & punya role user
 Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::post('/laptops/{laptop}/sewa', [CatalogController::class, 'storeSewa'])->name('laptops.sewa');
     Route::get('/riwayat-sewa', [TransactionController::class, 'index'])->name('transactions.index');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
