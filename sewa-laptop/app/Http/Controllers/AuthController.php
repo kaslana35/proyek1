@@ -37,7 +37,11 @@ class AuthController extends Controller {
             'timestamp' => now(),
         ]);
 
-        return redirect()->intended(route('laptops.index'))->with('success', 'Registrasi berhasil! Selamat datang.');
+        $intended = session()->pull('url.intended', route('laptops.index'));
+        if (is_string($intended) && str_contains($intended, '/sewa')) {
+            $intended = preg_replace('#/sewa$#', '', $intended);
+        }
+        return redirect($intended ?: route('laptops.index'))->with('success', 'Registrasi berhasil! Selamat datang.');
     }
 
     public function showLogin() {
@@ -85,7 +89,16 @@ class AuthController extends Controller {
                 'ip' => $request->ip(),
                 'timestamp' => now(),
             ]);
-            return auth()->user()->hasRole('admin') ? redirect()->route('dashboard') : redirect()->route('laptops.index');
+            if (auth()->user()->hasRole('admin')) {
+                return redirect()->route('dashboard');
+            }
+
+            // Redirect to intended URL, but convert POST sewa route to show page
+            $intended = session()->pull('url.intended', route('laptops.index'));
+            if (is_string($intended) && str_contains($intended, '/sewa')) {
+                $intended = preg_replace('#/sewa$#', '', $intended);
+            }
+            return redirect($intended ?: route('laptops.index'))->with('success', 'Login berhasil! Selamat datang.');
         }
 
         if ($user) {
