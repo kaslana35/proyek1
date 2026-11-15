@@ -88,7 +88,7 @@ Proyek ini dibangun untuk mengatasi masalah tersebut dengan menerapkan:
 4. **Desain Profesional**: Antarmuka bergaya korporat (*SaaS Style*) dengan Dark/Light mode, responsive design, dan print-friendly layout.
 5. **API Production-Ready**: RESTful API dengan Sanctum token, rate limiter, role-based access, dan logging.
 6. **Validasi Real-World**: Serial number validation berdasarkan spesifikasi resmi manufacturer (Dell, Lenovo, HP, Acer, Asus, Apple, MSI, Gigabyte).
-7. **Dokumentasi Lengkap**: `struktur.md` dan `deskripsi.md` dengan detail arsitektur dan spesifikasi teknis.
+7. **Dokumentasi Lengkap**: `struktur.md` dan `README.md` dengan detail arsitektur dan spesifikasi teknis.
 
 ---
 
@@ -107,7 +107,7 @@ sewa-laptop/
 ├── tests/Feature/            # AdminTest.php + UserTest.php
 ├── DEPLOYMENT.md             # Panduan operasional & deployment
 ├── struktur.md               # Dokumentasi struktur proyek
-└── deskripsi.md              # Dokumentasi deskripsi proyek
+└── README.md                 # Dokumentasi proyek
 ```
 
 ---

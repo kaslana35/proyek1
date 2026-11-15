@@ -96,7 +96,7 @@ Proyek ini dibangun menggunakan arsitektur **MVC (Model-View-Controller)** denga
 ## 6. Dokumentasi
 
 - **`struktur.md`** — Dokumentasi struktur proyek (file ini).
-- **`deskripsi.md`** — Dokumentasi deskripsi proyek (ringkasan eksekutif, fitur, arsitektur, keamanan, keunggulan).
+- **`README.md`** — Dokumentasi proyek (ringkasan eksekutif, fitur, arsitektur, keamanan, keunggulan).
 - **`README.md`** — (jika ada) Dokumentasi instalasi dan penggunaan.
 
 ---
