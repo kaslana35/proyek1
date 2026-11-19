@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Admin Utama',
                 'password' => Hash::make('Admin123@'),
+                'email_verified_at' => now(),
             ]
         );
         $admin->assignRole($adminRole);
@@ -39,6 +40,7 @@ class DatabaseSeeder extends Seeder
                 [
                     'name' => $userData['name'],
                     'password' => Hash::make('UserLaptop@2024'),
+                    'email_verified_at' => now(),
                 ]
             );
             $user->assignRole($userRole);
