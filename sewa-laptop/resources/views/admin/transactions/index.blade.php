@@ -10,6 +10,9 @@
     <button onclick="window.print()" class="bg-gray-700 dark:bg-slate-600 text-white px-4 py-2 rounded-lg hover:bg-gray-800 dark:hover:bg-slate-500 transition-smooth text-sm font-bold shadow-sm whitespace-nowrap">
         Cetak Laporan
     </button>
+    <a href="{{ route('admin.transactions.export') }}" class="bg-green-600 dark:bg-green-700 text-white px-4 py-2 rounded-lg hover:bg-green-700 dark:hover:bg-green-600 transition-smooth text-sm font-bold shadow-sm whitespace-nowrap">
+        Export CSV
+    </a>
 </div>
 <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 print-only hidden">Laporan Transaksi Penyewaan Laptop</h1>
 

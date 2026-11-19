@@ -90,6 +90,45 @@ class TransactionController extends Controller
         }
     }
 
+    // Export transaksi ke CSV
+    public function exportCsv()
+    {
+        $transactions = Transaction::with(['laptop', 'user'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $filename = 'transaksi_' . now()->format('Y-m-d_His') . '.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+
+        $callback = function () use ($transactions) {
+            $file = fopen('php://output', 'w');
+            // BOM for Excel UTF-8
+            fwrite($file, "\xEF\xBB\xBF");
+            fputcsv($file, ['ID', 'Laptop', 'Penyewa', 'Tanggal Mulai', 'Tanggal Selesai', 'Total Biaya', 'Status', 'Dibuat']);
+
+            foreach ($transactions as $t) {
+                fputcsv($file, [
+                    $t->id,
+                    $t->laptop ? $t->laptop->merk . ' ' . $t->laptop->tipe : '-',
+                    $t->user ? $t->user->name : $t->nama_peminjam,
+                    $t->tanggal_mulai,
+                    $t->tanggal_selesai,
+                    $t->total_biaya,
+                    $t->status,
+                    $t->created_at,
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
     // Admin / User Membatalkan Transaksi (Dengan Pengembalian Stok)
     public function cancel(Transaction $transaction)
     {

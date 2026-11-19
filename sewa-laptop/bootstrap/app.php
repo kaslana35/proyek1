@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withSchedule(function (Schedule $schedule) {
         $schedule->command('laptop:check-expired')->daily();
+        $schedule->command('db:backup')->dailyAt('02:00');
     })
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->trustProxies(at: env('TRUSTED_PROXIES', '*'));
