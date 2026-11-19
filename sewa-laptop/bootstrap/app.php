@@ -37,6 +37,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => RoleMiddleware::class,
             'security.headers' => \App\Http\Middleware\SetSecurityHeaders::class,
             'force.https' => \App\Http\Middleware\ForceHttps::class,
+            'admin.ip' => \App\Http\Middleware\AdminIpAllowlist::class,
         ]);
         $middleware->web(append: [
             \App\Http\Middleware\SetSecurityHeaders::class,

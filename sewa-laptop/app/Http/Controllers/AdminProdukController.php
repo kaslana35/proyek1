@@ -94,6 +94,7 @@ class AdminProdukController extends Controller {
         if ($laptop->image) Storage::disk('public')->delete($laptop->image);
         $laptop->delete();
         \Illuminate\Support\Facades\Cache::forget('catalog.ready_laptops');
+        \App\Support\SecurityLogger::log('product_deleted', ['laptop_id' => $laptop->id, 'merk' => $laptop->merk]);
         return redirect()->route('admin.produk.manage')->with('success', 'Laptop dihapus (soft delete)!');
     }
 }

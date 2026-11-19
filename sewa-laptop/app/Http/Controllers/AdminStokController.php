@@ -61,6 +61,13 @@ class AdminStokController extends Controller {
             // Invalidate catalog cache
             \Illuminate\Support\Facades\Cache::forget('catalog.ready_laptops');
 
+            \App\Support\SecurityLogger::log('stock_transfer', [
+                'laptop_id' => $laptop->id,
+                'from' => $request->from,
+                'to' => $request->target,
+                'jumlah' => $request->jumlah,
+            ]);
+
             DB::commit();
             return back()->with('success', 'Stok berhasil dipindahkan & dicatat.');
         } catch (\Exception $e) {

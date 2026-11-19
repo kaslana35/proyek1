@@ -13,11 +13,23 @@ use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:5,1');
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->middleware(['throttle:login', 'throttle:login-global']);
     Route::get('/forgot-password', [AuthController::class, 'showForgot'])->name('password.request');
-    Route::post('/forgot-password', [AuthController::class, 'sendResetLink'])->name('password.email')->middleware('throttle:password-reset');
+    Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+Route::get('/email/verify/{id}/{hash}', function (\Illuminate\Foundation\Auth\EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/laptops')->with('success', 'Email berhasil diverifikasi!');
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('status', 'Link verifikasi telah dikirim!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 // Halaman Utama: Redirect otomatis ke /login atau dashboard/katalog
 Route::get('/', function () {
@@ -42,7 +54,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Rute khusus Admin
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+Route::middleware(['auth', 'role:admin', 'admin.ip'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/transactions', [TransactionController::class, 'adminIndex'])->name('admin.transactions.index');
 Route::get('/transactions/export', [TransactionController::class, 'exportCsv'])->name('admin.transactions.export');
@@ -76,7 +88,7 @@ Route::middleware('throttle:60,1')->group(function () {
 });
 
 // Proses sewa (guest ditangani di controller -> redirect login)
-Route::post('/laptops/{laptop}/sewa', [CatalogController::class, 'storeSewa'])->name('laptops.sewa')->middleware('throttle:60,1');
+Route::post('/laptops/{laptop}/sewa', [CatalogController::class, 'storeSewa'])->name('laptops.sewa')->middleware(['throttle:60,1', 'verified']);
 
 // Proses sewa pending setelah login
 Route::get('/sewa/proses-pending', [CatalogController::class, 'processPendingSewa'])->name('sewa.process_pending')->middleware(['auth', 'role:user']);

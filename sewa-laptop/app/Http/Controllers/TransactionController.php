@@ -47,6 +47,7 @@ class TransactionController extends Controller
             }
 
             $transaction->update(['status' => 'approved']);
+            \App\Support\SecurityLogger::log('transaction_approved', ['transaction_id' => $transaction->id]);
             DB::commit();
             return back()->with('success', 'Transaksi berhasil disetujui!');
         } catch (\Exception $e) {
@@ -81,6 +82,7 @@ class TransactionController extends Controller
 
             $transaction->update(['status' => 'returned']);
             \Illuminate\Support\Facades\Cache::forget('catalog.ready_laptops');
+            \App\Support\SecurityLogger::log('transaction_completed', ['transaction_id' => $transaction->id]);
             DB::commit();
 
             return back()->with('success', 'Barang berhasil dikembalikan dan stok unit bertambah kembali!');
@@ -160,6 +162,7 @@ class TransactionController extends Controller
             }
 
             \Illuminate\Support\Facades\Cache::forget('catalog.ready_laptops');
+            \App\Support\SecurityLogger::log('transaction_cancelled', ['transaction_id' => $transaction->id]);
             DB::commit();
             return back()->with('success', 'Penyewaan dibatalkan dan stok laptop berhasil dikembalikan!');
         } catch (\Exception $e) {

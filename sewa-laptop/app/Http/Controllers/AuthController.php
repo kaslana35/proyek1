@@ -128,6 +128,8 @@ class AuthController extends Controller {
         $attempts = (int) \Illuminate\Support\Facades\Cache::get($globalKey, 0) + 1;
         \Illuminate\Support\Facades\Cache::put($globalKey, $attempts, now()->addMinutes(5));
 
+        \App\Support\SecurityLogger::log('failed_login_attempt', ['email' => $request->email]);
+
         Log::warning('Failed login attempt', [
             'ip' => $request->ip(),
             'user_agent' => $request->userAgent(),
@@ -144,11 +146,20 @@ class AuthController extends Controller {
 
     public function sendResetLink(Request $request) {
         $request->validate(['email' => 'required|email|exists:users,email']);
-        Log::info('Password reset link sent', [
-            'email' => $request->email,
-            'ip' => $request->ip(),
-            'timestamp' => now(),
-        ]);
-        return back()->with('status', 'Link reset password sudah dikirim ke email kamu!');
+        
+        $status = \Illuminate\Support\Facades\Password::sendResetLink(
+            $request->only('email')
+        );
+
+        if ($status === \Illuminate\Support\Facades\Password::RESET_LINK_SENT) {
+            Log::info('Password reset link sent', [
+                'email' => $request->email,
+                'ip' => $request->ip(),
+                'timestamp' => now(),
+            ]);
+            return back()->with('status', __($status));
+        }
+
+        return back()->withErrors(['email' => __($status)]);
     }
 }

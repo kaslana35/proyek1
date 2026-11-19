@@ -14,7 +14,7 @@ class DashboardController extends Controller {
             'pendapatan'     => Transaction::whereIn('status', ['approved', 'returned'])->sum('total_biaya'),
         ];
 
-        $lowStockLaptops = Laptop::where('stok', '<=', 1)->get();
+        $lowStockLaptops = Laptop::where('stok', '<=', 1)->limit(10)->get();
         $recentInspections = \App\Models\UnitInspection::with('laptop')->latest()->take(5)->get();
         
         $pendapatanPerBulan = Transaction::selectRaw('SUM(total_biaya) as total, MONTHNAME(created_at) as bulan')

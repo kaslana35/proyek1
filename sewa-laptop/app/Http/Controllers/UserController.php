@@ -38,6 +38,7 @@ class UserController extends Controller
         }
 
         $user->syncRoles($request->role);
+        \App\Support\SecurityLogger::log('role_change', ['target_user' => $user->id, 'new_role' => $request->role]);
         return redirect()->route('admin.users.index')->with('success', 'Role user berhasil diupdate!');
     }
 }
