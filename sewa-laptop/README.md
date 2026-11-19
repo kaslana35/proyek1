@@ -77,6 +77,11 @@ Proyek ini dibangun untuk mengatasi masalah tersebut dengan menerapkan:
 | Session Security | ✅ Aman | Invalidate + regenerateToken on logout |
 | Password Policy | ✅ Ketat | `Password::defaults()->mixedCase()->numbers()->symbols()` |
 | Sanctum Token Expiry | ✅ 24 jam | `SANCTUM_TOKEN_EXPIRATION` |
+| Account Lockout | ✅ Aktif | 10 percobaan → lock 15 menit (anti-botnet) |
+| TrustHosts | ✅ Aktif | No subdomain trust + PaaS domains (Railway/Heroku) |
+| Subdomain Cookie | ✅ Aman | `SESSION_DOMAIN=null` (scope ke exact host) |
+| Cache Poisoning | ✅ Mitigasi | TrustProxies + TrustHosts + Vary header |
+| Brute Force (Botnet) | ✅ Mitigasi | Rate limiter per IP + per Email + global (100/min) |
 
 ---
 
@@ -104,7 +109,7 @@ sewa-laptop/
 ├── database/seeders/         # DatabaseSeeder + LaptopSeeder (34 laptops)
 ├── resources/views/          # 18 Blade templates (Dark mode support)
 ├── routes/                   # web.php + api.php
-├── tests/Feature/            # AdminTest.php + UserTest.php
+├── tests/Feature/            # AdminTest.php + UserTest.php + AccountLockoutTest.php
 ├── DEPLOYMENT.md             # Panduan operasional & deployment
 ├── struktur.md               # Dokumentasi struktur proyek
 └── README.md                 # Dokumentasi proyek
@@ -156,13 +161,22 @@ Lihat `DEPLOYMENT.md` untuk panduan lengkap. Ringkasan:
 ## 10. Git History (Commit Terakhir)
 
 ```
-5e4b7f5 fix: add dark mode to edit_role, edit laptop, and remaining admin pages
-d605486 feat: add pagination (5 per page) to user transaction history
-5aedfcc fix: add pagination links to stock management page
-3756961 fix: change User::all() to User::paginate(10)
-0f2cd0e feat: add dark mode to all admin pages, create form, and improve UI consistency
-a1c0e80 feat: add dark mode support to all views, improve UI consistency
-5ea9f2b feat: add dark/light mode toggle, upgrade UI with Plus Jakarta Sans
-2fc8f01 style: upgrade UI/UX with Plus Jakarta Sans, professional navbar, footer, and dashboard icons
-72630ee feat: finalize security audit, fix API authorization, race condition, and serial number validation
+8b30659 fix: footer at bottom on auth pages (flex-col layout)
+7c1c94b fix: add back buttons to detail/content pages
+2f61ad3 fix: move back buttons to top on create/edit/edit_role pages
+9a44f6e fix: standardize all back button labels (descriptive destination)
+23db619 fix: standardize all back button styles (text link + arrow icon)
+6e9ca0c fix: move back button to top on inspections page
+a6b7418 fix: improve stok transfer UX (default from/target, max qty)
+b37c774 fix: move back button to top on users/index page
+73286f2 feat: add search & filter to admin product management page
+ecced50 fix: improve accessibility (labels, autocomplete) on all forms
+4958837 fix: redirect after login/register to intended page (sewa flow)
+7635f76 feat: direct rent after guest login/register
+ca989ab docs: remove deskripsi.md (merged into README.md)
+abc9dd8 docs: add custom SVG logo
+7f7b8d9 fix: resolve ERR_TOO_MANY_REDIRECTS on Railway
+1cf74e1 feat: close remaining infra vulnerabilities & lockout tests
+17c92e6 feat: comprehensive security hardening & operational readiness
+685a466 fix: secure headers middleware fix and route adjustments
 ```
