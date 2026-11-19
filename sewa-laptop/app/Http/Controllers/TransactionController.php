@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Laptop;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,6 +39,13 @@ class TransactionController extends Controller
         $this->authorize('update', $transaction);
         DB::beginTransaction();
         try {
+            $transaction = Transaction::lockForUpdate()->findOrFail($transaction->id);
+
+            if ($transaction->status !== 'pending') {
+                DB::rollBack();
+                return back()->withErrors(['error' => 'Hanya transaksi pending yang dapat disetujui.']);
+            }
+
             $transaction->update(['status' => 'approved']);
             DB::commit();
             return back()->with('success', 'Transaksi berhasil disetujui!');
@@ -51,21 +59,28 @@ class TransactionController extends Controller
     public function complete(Transaction $transaction)
     {
         $this->authorize('update', $transaction);
-        if ($transaction->status !== 'approved') {
-            return back()->withErrors(['error' => 'Hanya transaksi yang disetujui yang dapat diselesaikan.']);
-        }
-
         DB::beginTransaction();
         try {
-            $laptop = $transaction->laptop;
-            if ($laptop) {
-                $laptop->increment('stok');
-                if ($laptop->status === 'empty') {
-                    $laptop->update(['status' => 'ready']);
+            $transaction = Transaction::lockForUpdate()->findOrFail($transaction->id);
+
+            if ($transaction->status !== 'approved') {
+                DB::rollBack();
+                return back()->withErrors(['error' => 'Hanya transaksi yang disetujui yang dapat diselesaikan.']);
+            }
+
+            if ($transaction->laptop_id) {
+                $laptop = Laptop::lockForUpdate()->find($transaction->laptop_id);
+                if ($laptop) {
+                    $laptop->increment('stok');
+                    $laptop->refresh();
+                    if ($laptop->stok > 0 && $laptop->status !== 'ready') {
+                        $laptop->update(['status' => 'ready']);
+                    }
                 }
             }
 
             $transaction->update(['status' => 'returned']);
+            \Illuminate\Support\Facades\Cache::forget('catalog.ready_laptops');
             DB::commit();
 
             return back()->with('success', 'Barang berhasil dikembalikan dan stok unit bertambah kembali!');
@@ -83,22 +98,30 @@ class TransactionController extends Controller
             abort(403, 'Akses ditolak');
         }
 
+        $this->authorize('update', $transaction);
+
         DB::beginTransaction();
         try {
-            // Jika transaksi belum dibatalkan sebelumnya, kembalikan stok
-            if ($transaction->status !== 'cancelled') {
-                $laptop = $transaction->laptop;
+            $transaction = Transaction::lockForUpdate()->findOrFail($transaction->id);
+
+            // Kembalikan stok hanya jika unit masih berada di tangan penyewa
+            if (in_array($transaction->status, ['pending', 'approved', 'overdue']) && $transaction->laptop_id) {
+                $laptop = Laptop::lockForUpdate()->find($transaction->laptop_id);
                 if ($laptop) {
                     $laptop->increment('stok');
-                    if ($laptop->status === 'empty') {
+                    $laptop->refresh();
+                    if ($laptop->stok > 0 && $laptop->status !== 'ready') {
                         $laptop->update(['status' => 'ready']);
                     }
                 }
             }
 
-            $transaction->update(['status' => 'cancelled']);
-            DB::commit();
+            if ($transaction->status !== 'cancelled') {
+                $transaction->update(['status' => 'cancelled']);
+            }
 
+            \Illuminate\Support\Facades\Cache::forget('catalog.ready_laptops');
+            DB::commit();
             return back()->with('success', 'Penyewaan dibatalkan dan stok laptop berhasil dikembalikan!');
         } catch (\Exception $e) {
             DB::rollBack();

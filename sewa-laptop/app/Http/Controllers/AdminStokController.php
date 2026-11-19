@@ -37,12 +37,18 @@ class AdminStokController extends Controller {
             $srcCol = $sources[$request->from];
             $tgtCol = $sources[$request->target];
 
+            $laptop = Laptop::lockForUpdate()->findOrFail($laptop->id);
+
             if ($laptop->$srcCol < $request->jumlah) {
                 throw new \Exception("Stok di " . ucfirst($request->from) . " tidak mencukupi.");
             }
 
-            $laptop->decrement($srcCol, $request->jumlah);
-            $laptop->increment($tgtCol, $request->jumlah);
+            $laptop->{$srcCol} -= $request->jumlah;
+            $laptop->{$tgtCol} += $request->jumlah;
+
+            // Sinkronkan status ketersediaan berdasarkan stok ready
+            $laptop->status = ($laptop->stok > 0) ? 'ready' : 'empty';
+            $laptop->save();
             
             UnitInspection::create([
                 'laptop_id' => $laptop->id,
@@ -51,6 +57,9 @@ class AdminStokController extends Controller {
                 'jumlah' => $request->jumlah,
                 'catatan' => $request->catatan
             ]);
+
+            // Invalidate catalog cache
+            \Illuminate\Support\Facades\Cache::forget('catalog.ready_laptops');
 
             DB::commit();
             return back()->with('success', 'Stok berhasil dipindahkan & dicatat.');

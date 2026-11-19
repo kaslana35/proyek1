@@ -42,6 +42,8 @@ class AdminProdukController extends Controller {
         $data['status'] = 'ready';
         Laptop::create($data);
 
+        \Illuminate\Support\Facades\Cache::forget('catalog.ready_laptops');
+
         return redirect()->route('admin.produk.manage')->with('success', 'Laptop berhasil ditambah!');
     }
 
@@ -72,7 +74,13 @@ class AdminProdukController extends Controller {
 
         if ($request->filled('stok_baru') && $request->stok_baru > 0) {
             $laptop->increment('stok', $request->stok_baru);
+            $laptop->refresh();
+            if ($laptop->stok > 0) {
+                $laptop->update(['status' => 'ready']);
+            }
         }
+
+        \Illuminate\Support\Facades\Cache::forget('catalog.ready_laptops');
 
         return redirect()->route('admin.produk.manage')->with('success', 'Data laptop & stok berhasil diperbarui!');
     }
@@ -85,6 +93,7 @@ class AdminProdukController extends Controller {
 
         if ($laptop->image) Storage::disk('public')->delete($laptop->image);
         $laptop->delete();
+        \Illuminate\Support\Facades\Cache::forget('catalog.ready_laptops');
         return redirect()->route('admin.produk.manage')->with('success', 'Laptop dihapus (soft delete)!');
     }
 }

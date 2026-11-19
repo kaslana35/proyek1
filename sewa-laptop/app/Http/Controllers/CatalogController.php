@@ -5,26 +5,46 @@ namespace App\Http\Controllers;
 use App\Models\Laptop;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CatalogController extends Controller {
     public function index(Request $request) {
-        $query = Laptop::where('stok', '>', 0)->where('status', 'ready');
+        // Cache ready laptops for 60 seconds (invalidated on stock change)
+        $readyLaptops = Cache::remember('catalog.ready_laptops', 60, function () {
+            return Laptop::where('stok', '>', 0)->where('status', 'ready')->get();
+        });
+
+        $filtered = $readyLaptops;
 
         if ($request->filled('search')) {
-            $query->where(function($q) use ($request) {
-                $q->where('merk', 'like', "%{$request->search}%")
-                  ->orWhere('tipe', 'like', "%{$request->search}%");
+            $search = strtolower($request->search);
+            $filtered = $filtered->filter(function ($laptop) use ($search) {
+                return str_contains(strtolower($laptop->merk), $search)
+                    || str_contains(strtolower($laptop->tipe), $search);
             });
         }
 
-        if ($request->filled('sort')) {
-            if ($request->sort === 'cheap') $query->orderBy('harga_sewa_per_hari', 'asc');
-            elseif ($request->sort === 'expensive') $query->orderBy('harga_sewa_per_hari', 'desc');
+        if ($request->sort === 'cheap') {
+            $filtered = $filtered->sortBy('harga_sewa_per_hari')->values();
+        } elseif ($request->sort === 'expensive') {
+            $filtered = $filtered->sortByDesc('harga_sewa_per_hari')->values();
+        } else {
+            $filtered = $filtered->values();
         }
 
-        $laptops = $query->paginate(6)->withQueryString();
-        return view('laptops.index', compact('laptops'));
+        $page = (int) $request->get('page', 1);
+        $perPage = 6;
+        $paginated = new LengthAwarePaginator(
+            $filtered->forPage($page, $perPage)->values(),
+            $filtered->count(),
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+        return view('laptops.index', ['laptops' => $paginated]);
     }
 
     public function show(Laptop $laptop) {
@@ -84,7 +104,6 @@ class CatalogController extends Controller {
             return redirect()->route('laptops.index')->with('error', 'Hanya user yang dapat menyewa.');
         }
 
-        // Validate dates
         $validator = \Illuminate\Support\Facades\Validator::make($pending, [
             'tanggal_mulai' => 'required|date|after_or_equal:today',
             'tanggal_selesai' => 'required|date|after:tanggal_mulai',
@@ -95,7 +114,6 @@ class CatalogController extends Controller {
             return redirect()->route('laptops.show', $laptop->id)->withErrors($validator)->with('error', 'Data sewa tidak valid. Silakan coba lagi.');
         }
 
-        // Idempotency check
         $recentDuplicate = Transaction::where('user_id', $user->id)
             ->where('laptop_id', $laptop->id)
             ->where('status', 'pending')
@@ -135,6 +153,9 @@ class CatalogController extends Controller {
             if ($laptop->stok <= 0) {
                 $laptop->update(['status' => 'empty']);
             }
+
+            // Invalidate catalog cache
+            Cache::forget('catalog.ready_laptops');
 
             DB::commit();
             return redirect()->route('transactions.index')->with('success', 'Berhasil! Pesanan sewa Anda telah dibuat.');
