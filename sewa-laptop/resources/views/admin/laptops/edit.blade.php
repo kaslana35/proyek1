@@ -7,37 +7,37 @@
         @csrf @method('PUT')
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Merk:</label>
-                <select name="merk" class="w-full h-11 px-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>
+                <label for="merk" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Merk:</label>
+                <select name="merk" id="merk" class="w-full h-11 px-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>
                     @foreach(['Asus', 'Acer', 'HP', 'Apple', 'Dell', 'Lenovo', 'Gigabyte', 'MSI'] as $merk)
                         <option value="{{ $merk }}" {{ $laptop->merk == $merk ? 'selected' : '' }}>{{ $merk }}</option>
                     @endforeach
                 </select>
             </div>
             <div>
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Tipe:</label>
-                <input type="text" name="tipe" value="{{ $laptop->tipe }}" class="w-full h-11 px-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>
+                <label for="tipe" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Tipe:</label>
+                <input type="text" name="tipe" id="tipe" value="{{ $laptop->tipe }}" class="w-full h-11 px-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>
             </div>
             <div>
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Serial Number:</label>
-                <input type="text" name="serial_number" value="{{ $laptop->serial_number }}" class="w-full h-11 px-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>
+                <label for="serial_number" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Serial Number:</label>
+                <input type="text" name="serial_number" id="serial_number" value="{{ $laptop->serial_number }}" class="w-full h-11 px-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>
             </div>
             <div>
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Harga Sewa / Hari (Rp):</label>
-                <input type="number" name="harga_sewa_per_hari" value="{{ $laptop->harga_sewa_per_hari }}" class="w-full h-11 px-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>
+                <label for="harga_sewa_per_hari" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Harga Sewa / Hari (Rp):</label>
+                <input type="number" name="harga_sewa_per_hari" id="harga_sewa_per_hari" value="{{ $laptop->harga_sewa_per_hari }}" class="w-full h-11 px-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>
             </div>
             <div>
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Stok Baru:</label>
-                <input type="number" name="stok_baru" value="{{ $laptop->stok }}" class="w-full h-11 px-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100">
+                <label for="stok_baru" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Stok Baru:</label>
+                <input type="number" name="stok_baru" id="stok_baru" value="{{ $laptop->stok }}" class="w-full h-11 px-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100">
             </div>
             <div>
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Foto Laptop:</label>
-                <input type="file" name="image" class="w-full h-11 px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 dark:file:bg-blue-900/30 file:text-blue-700 dark:file:text-blue-400 hover:file:bg-blue-100 dark:hover:file:bg-blue-900/50 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" accept="image/*">
+                <label for="image" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Foto Laptop:</label>
+                <input type="file" name="image" id="image" class="w-full h-11 px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-blue-50 dark:file:bg-blue-900/30 file:text-blue-700 dark:file:text-blue-400 hover:file:bg-blue-100 dark:hover:file:bg-blue-900/50 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" accept="image/*">
             </div>
         </div>
         <div class="mt-6">
-            <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Spesifikasi Lengkap:</label>
-            <textarea name="spesifikasi" rows="4" class="w-full p-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>{{ $laptop->spesifikasi }}</textarea>
+            <label for="spesifikasi" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Spesifikasi Lengkap:</label>
+                <textarea name="spesifikasi" id="spesifikasi" rows="4" class="w-full p-4 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100" required>{{ $laptop->spesifikasi }}</textarea>
         </div>
         @if($laptop->image)
         <div class="mt-6 p-4 bg-gray-50 dark:bg-slate-700/50 rounded-xl border border-gray-100 dark:border-slate-700 flex items-center gap-4">

@@ -6,8 +6,8 @@
     <form action="{{ route('admin.users.update_role', $user->id) }}" method="POST">
         @csrf @method('PUT')
         <div class="mb-6">
-            <label class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Pilih Role:</label>
-            <select name="role" class="w-full px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-yellow-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100">
+            <label for="role" class="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">Pilih Role:</label>
+            <select name="role" id="role" class="w-full px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-yellow-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100">
                 @foreach($roles as $role)
                     <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
                         {{ ucfirst($role->name) }}
