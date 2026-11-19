@@ -12,9 +12,13 @@ use Illuminate\Pagination\LengthAwarePaginator;
 class CatalogController extends Controller {
     public function index(Request $request) {
         // Cache ready laptops for 60 seconds (invalidated on stock change)
-        $readyLaptops = Cache::remember('catalog.ready_laptops', 60, function () {
-            return Laptop::where('stok', '>', 0)->where('status', 'ready')->get();
-        });
+        $cached = Cache::get('catalog.ready_laptops');
+        if ($cached === null) {
+            $cached = Laptop::where('stok', '>', 0)->where('status', 'ready')->get()->toArray();
+            Cache::put('catalog.ready_laptops', $cached, 60);
+        }
+
+        $readyLaptops = Laptop::hydrate($cached);
 
         $filtered = $readyLaptops;
 

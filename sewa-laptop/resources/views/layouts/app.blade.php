@@ -8,31 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-                    },
-                    colors: {
-                        primary: '#2563EB',
-                        accent: '#EA580C',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif; }
-        * { cursor: pointer; }
-        a, button, [role="button"], input[type="submit"], select, label[for] { cursor: pointer; }
-        input, textarea { cursor: text; }
-        .transition-smooth { transition: all 200ms ease-in-out; }
-        
-    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script>
         // Dark mode toggle
         (function() {
