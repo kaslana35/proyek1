@@ -40,6 +40,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             \App\Http\Middleware\SetSecurityHeaders::class,
             \App\Http\Middleware\ForceHttps::class,
+            \App\Http\Middleware\CacheControl::class,
         ]);
         $middleware->append(\App\Http\Middleware\LogRequests::class);
     })

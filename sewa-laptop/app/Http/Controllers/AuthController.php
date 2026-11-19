@@ -80,11 +80,20 @@ class AuthController extends Controller {
             'password' => $request->password,
         ];
 
+        // Global failed login counter (anti-botnet flood)
+        $globalKey = 'global_failed_logins';
+        $globalAttempts = (int) \Illuminate\Support\Facades\Cache::get($globalKey, 0);
+        if ($globalAttempts >= 50) {
+            Log::warning('Global login lockout triggered', ['ip' => $request->ip(), 'attempts' => $globalAttempts]);
+            return back()->withErrors(['email' => 'Terlalu banyak percobaan login. Coba lagi dalam 5 menit.']);
+        }
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             if ($user) {
                 $user->resetFailedLogins();
             }
+            \Illuminate\Support\Facades\Cache::forget('global_failed_logins');
             $user = auth()->user();
             Log::info('Successful login', [
                 'user_id' => $user->id,
@@ -113,6 +122,11 @@ class AuthController extends Controller {
         if ($user) {
             $user->recordFailedLogin();
         }
+
+        // Increment global failed login counter
+        $globalKey = 'global_failed_logins';
+        $attempts = (int) \Illuminate\Support\Facades\Cache::get($globalKey, 0) + 1;
+        \Illuminate\Support\Facades\Cache::put($globalKey, $attempts, now()->addMinutes(5));
 
         Log::warning('Failed login attempt', [
             'ip' => $request->ip(),

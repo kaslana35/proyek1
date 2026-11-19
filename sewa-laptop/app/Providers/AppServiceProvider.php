@@ -58,5 +58,10 @@ class AppServiceProvider extends ServiceProvider
         if (app()->environment('production') && config('session.domain') && str_starts_with(config('session.domain'), '.')) {
             throw new \RuntimeException('SESSION_DOMAIN must not start with a dot in production (subdomain cookie sharing risk). Set SESSION_DOMAIN=null.');
         }
+
+        // Enforce SESSION_DOMAIN=null if not explicitly set (prevent subdomain cookie sharing)
+        if (empty(config('session.domain'))) {
+            config(['session.domain' => null]);
+        }
     }
 }
