@@ -5,11 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Laptop;
 use App\Http\Requests\StoreLaptopRequest;
 use App\Http\Requests\UpdateLaptopRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class AdminProdukController extends Controller {
-    public function manageProduk() {
-        $laptops = Laptop::paginate(6);
+    public function manageProduk(Request $request) {
+        $query = Laptop::query();
+
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('merk', 'like', "%{$request->search}%")
+                  ->orWhere('tipe', 'like', "%{$request->search}%")
+                  ->orWhere('serial_number', 'like', "%{$request->search}%");
+            });
+        }
+
+        if ($request->filled('status') && in_array($request->status, ['ready', 'empty'])) {
+            $query->where('status', $request->status);
+        }
+
+        $laptops = $query->orderBy('created_at', 'desc')->paginate(6)->withQueryString();
         return view('admin.produk.manage', compact('laptops'));
     }
 

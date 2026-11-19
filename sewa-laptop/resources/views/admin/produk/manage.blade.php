@@ -13,6 +13,25 @@
     <a href="{{ route('admin.laptops.create') }}" class="bg-blue-600 text-white px-4 py-2.5 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-smooth shadow-sm whitespace-nowrap">+ Tambah Produk</a>
 </div>
 
+<!-- Search & Filter -->
+<form action="{{ route('admin.produk.manage') }}" method="GET" class="mb-6 flex flex-col sm:flex-row gap-3">
+    <div class="relative flex-1">
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg class="w-5 h-5 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        </div>
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari merk, tipe, atau serial number..." class="border border-gray-200 dark:border-slate-600 rounded-xl pl-10 pr-4 py-2.5 w-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-smooth shadow-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500">
+    </div>
+    <select name="status" class="border border-gray-200 dark:border-slate-600 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-smooth shadow-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100">
+        <option value="">Semua Status</option>
+        <option value="ready" {{ request('status') == 'ready' ? 'selected' : '' }}>Ready</option>
+        <option value="empty" {{ request('status') == 'empty' ? 'selected' : '' }}>Empty</option>
+    </select>
+    <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition-smooth shadow-sm hover:shadow-md">Cari</button>
+    @if(request('search') || request('status'))
+        <a href="{{ route('admin.produk.manage') }}" class="bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 px-4 py-2.5 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-slate-600 transition-smooth">Reset</a>
+    @endif
+</form>
+
 <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse min-w-[640px]">
