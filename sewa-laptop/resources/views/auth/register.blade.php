@@ -64,20 +64,20 @@
         <form action="{{ route('register') }}" method="POST">
             @csrf
             <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Nama Lengkap:</label>
-                <input type="text" name="name" value="{{ old('name') }}" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100 text-sm transition-smooth" required autofocus>
+                <label for="name" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Nama Lengkap:</label>
+                <input type="text" name="name" id="name" value="{{ old('name') }}" autocomplete="name" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100 text-sm transition-smooth" required autofocus>
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Email:</label>
-                <input type="email" name="email" value="{{ old('email') }}" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100 text-sm transition-smooth" required>
+                <label for="email" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Email:</label>
+                <input type="email" name="email" id="email" value="{{ old('email') }}" autocomplete="email" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100 text-sm transition-smooth" required>
             </div>
             <div class="mb-4">
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Password:</label>
-                <input type="password" name="password" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100 text-sm transition-smooth" required>
+                <label for="password" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Password:</label>
+                <input type="password" name="password" id="password" autocomplete="new-password" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100 text-sm transition-smooth" required>
             </div>
             <div class="mb-6">
-                <label class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Konfirmasi Password:</label>
-                <input type="password" name="password_confirmation" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100 text-sm transition-smooth" required>
+                <label for="password_confirmation" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Konfirmasi Password:</label>
+                <input type="password" name="password_confirmation" id="password_confirmation" autocomplete="new-password" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100 text-sm transition-smooth" required>
             </div>
             <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-xl hover:bg-blue-700 transition-smooth shadow-sm text-sm">Daftar & Masuk</button>
         </form>
