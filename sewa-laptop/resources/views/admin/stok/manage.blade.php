@@ -47,17 +47,17 @@
                     <form action="{{ route('admin.stok.transfer', $l->id) }}" method="POST" class="flex flex-wrap gap-2 items-center">
                         @csrf @method('PUT')
                         <select name="from" class="border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" required>
-                            <option value="ready">Ready</option>
+                            <option value="ready" selected>Ready</option>
                             <option value="maintenance">Maintenance</option>
                             <option value="not_ready">Not Ready</option>
                         </select>
                         <span class="text-gray-400 dark:text-gray-500 text-xs font-bold">→</span>
                         <select name="target" class="border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" required>
                             <option value="ready">Ready</option>
-                            <option value="maintenance">Maintenance</option>
+                            <option value="maintenance" selected>Maintenance</option>
                             <option value="not_ready">Not Ready</option>
                         </select>
-                        <input type="number" name="jumlah" min="1" class="w-14 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" required placeholder="Qty">
+                        <input type="number" name="jumlah" min="1" max="{{ $l->stok }}" class="w-14 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" required placeholder="Qty">
                         <input type="text" name="catatan" class="w-28 border border-gray-200 dark:border-slate-600 rounded px-2 py-1 text-xs bg-white dark:bg-slate-700 text-gray-700 dark:text-gray-300" required placeholder="Catatan">
                         <button class="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700 transition-smooth">Transfer</button>
                     </form>
