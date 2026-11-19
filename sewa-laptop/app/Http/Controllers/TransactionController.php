@@ -6,6 +6,7 @@ use App\Models\Laptop;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
@@ -129,6 +130,11 @@ class TransactionController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new \App\Exports\TransactionExport, 'transaksi_' . now()->format('Y-m-d_His') . '.xlsx');
     }
 
     // Admin / User Membatalkan Transaksi (Dengan Pengembalian Stok)

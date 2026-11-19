@@ -59,6 +59,7 @@ Route::middleware(['auth', 'role:admin', 'admin.ip'])->prefix('admin')->group(fu
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/transactions', [TransactionController::class, 'adminIndex'])->name('admin.transactions.index');
 Route::get('/transactions/export', [TransactionController::class, 'exportCsv'])->name('admin.transactions.export');
+Route::get('/transactions/excel', [TransactionController::class, 'exportExcel'])->name('admin.transactions.excel');
     Route::put('/transactions/{transaction}/approve', [TransactionController::class, 'approve'])->name('admin.transactions.approve');
     Route::put('/transactions/{transaction}/complete', [TransactionController::class, 'complete'])->name('admin.transactions.complete');
     Route::put('/transactions/{transaction}/cancel', [TransactionController::class, 'cancel'])->name('admin.transactions.cancel');

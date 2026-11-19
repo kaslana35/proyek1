@@ -47,6 +47,11 @@
             </div>
         @endif
 
+        <a href="{{ route('laptops.index') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 mb-4 transition-smooth">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Kembali ke Katalog
+        </a>
+
         <form action="{{ route('register') }}" method="POST">
             @csrf
             <div class="mb-4">
@@ -65,7 +70,9 @@
                 <label for="password_confirmation" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Konfirmasi Password:</label>
                 <input type="password" name="password_confirmation" id="password_confirmation" autocomplete="new-password" class="w-full px-4 py-2.5 border border-gray-200 dark:border-slate-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-slate-700 text-gray-800 dark:text-gray-100 text-sm transition-smooth" required>
             </div>
-            <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-xl hover:bg-blue-700 transition-smooth shadow-sm text-sm">Daftar & Masuk</button>
+            <div class="g-recaptcha mb-4" data-site-key="{{ config('recaptcha.site_key') }}"></div>
+
+        <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-2.5 px-4 rounded-xl hover:bg-blue-700 transition-smooth shadow-sm text-sm">Daftar & Masuk</button>
         </form>
 
         <div class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
