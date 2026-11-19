@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Tambah Laptop')
 @section('content')
+<a href="{{ route('admin.produk.manage') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 mb-4 transition-smooth">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+    Kembali ke Manajemen Produk
+</a>
 <div class="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 p-8">
     <h2 class="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-slate-700 pb-4">Tambah Laptop Baru</h2>
     <form action="{{ route('admin.laptops.store') }}" method="POST" enctype="multipart/form-data">
@@ -41,10 +45,6 @@
         </div>
         <div class="mt-8 flex gap-4">
             <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-smooth shadow-sm">Simpan Produk</button>
-            <a href="{{ route('admin.produk.manage') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 mb-4 transition-smooth">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-    Kembali ke Manajemen Produk
-</a>
         </div>
     </form>
 </div>
