@@ -6,7 +6,10 @@
         <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Manajemen Stok</h1>
         <p class="text-sm text-gray-500 dark:text-gray-400">Kelola stok fisik dan transfer antar status.</p>
     </div>
-    <a href="{{ route('dashboard') }}" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-smooth">Kembali ke Dashboard</a>
+    <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 mb-4 transition-smooth">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+    Kembali ke Dashboard
+</a>
 </div>
 
 <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-gray-100 dark:border-slate-700 overflow-hidden">

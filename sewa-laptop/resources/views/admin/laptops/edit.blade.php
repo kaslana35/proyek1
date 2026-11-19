@@ -47,7 +47,10 @@
         @endif
         <div class="mt-8 flex gap-4">
             <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-smooth shadow-sm">Update Produk</button>
-            <a href="{{ route('admin.produk.manage') }}" class="bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-slate-600 transition-smooth">Kembali ke Manajemen Produk</a>
+            <a href="{{ route('admin.produk.manage') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 mb-4 transition-smooth">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+    Kembali ke Manajemen Produk
+</a>
         </div>
     </form>
 </div>
