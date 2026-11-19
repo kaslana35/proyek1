@@ -28,7 +28,7 @@
             </div>
             <div>
                 <label for="address" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Alamat</label>
-                <textarea name="address" id="address" rows="3" placeholder="Alamat domisili..." class="w-full p-3 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 transition outline-none text-gray-800 dark:text-gray-100">{{ old('address', auth()->user()->address) }}</textarea>
+                <textarea name="address" id="address" rows="3" autocomplete="street-address" placeholder="Alamat domisili..." class="w-full p-3 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 transition outline-none text-gray-800 dark:text-gray-100">{{ old('address', auth()->user()->address) }}</textarea>
             </div>
             <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition-smooth shadow-sm">Simpan Perubahan</button>
         </form>
@@ -42,6 +42,7 @@
         <form action="{{ route('profile.password') }}" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
+            <input type="text" name="username" value="{{ auth()->user()->email }}" autocomplete="username" class="sr-only" tabindex="-1" aria-hidden="true">
             <div>
                 <label for="current_password" class="block text-gray-700 dark:text-gray-300 text-sm font-semibold mb-2">Password Saat Ini</label>
                 <input type="password" name="current_password" id="current_password" autocomplete="current-password" class="w-full p-3 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-yellow-500 transition outline-none text-gray-800 dark:text-gray-100" required>
