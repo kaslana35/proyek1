@@ -41,7 +41,7 @@
         </div>
         <div class="mt-8 flex gap-4">
             <button type="submit" class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition-smooth shadow-sm">Simpan Produk</button>
-            <a href="{{ route('admin.produk.manage') }}" class="bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-slate-600 transition-smooth">Kembali</a>
+            <a href="{{ route('admin.produk.manage') }}" class="bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 px-6 py-3 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-slate-600 transition-smooth">Kembali ke Manajemen Produk</a>
         </div>
     </form>
 </div>
