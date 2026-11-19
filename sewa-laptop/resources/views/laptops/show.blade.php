@@ -2,6 +2,10 @@
 @section('title', $laptop->merk . ' ' . $laptop->tipe)
 @section('content')
 <div class="max-w-5xl mx-auto py-8">
+    <a href="{{ route('laptops.index') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 mb-4 transition-smooth">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        Kembali ke Katalog
+    </a>
     <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="grid grid-cols-1 md:grid-cols-2">
             <!-- Foto -->

@@ -1,6 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Riwayat & Cetak Bukti Sewa')
 @section('content')
+<a href="{{ route('laptops.index') }}" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 mb-4 transition-smooth no-print">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+    Kembali ke Katalog
+</a>
 <div class="mb-6 flex justify-between items-center">
     <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Riwayat & Cetak Bukti Sewa</h1>
     <form action="{{ route('transactions.index') }}" method="GET" class="flex items-center gap-2">
