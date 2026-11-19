@@ -113,5 +113,14 @@
             }
         }
     </script>
+    <footer class="mt-8 py-6 text-center text-xs text-gray-500 dark:text-gray-400">
+        <div class="flex items-center justify-center gap-2 mb-2">
+            <div class="bg-blue-600 p-1.5 rounded-lg">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </div>
+            <span class="font-semibold text-gray-700 dark:text-gray-300">Sewa Laptop Enterprise Core</span>
+        </div>
+        <p>&copy; {{ date('Y') }} Sistem Manajemen & Penyewaan Laptop Terintegrasi. Hak Cipta Dilindungi.</p>
+    </footer>
 </body>
 </html>
